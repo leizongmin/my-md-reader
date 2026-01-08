@@ -67,6 +67,13 @@ module.exports = {
     extensions: ['.ts', '.js', '.svelte', '.json', '.less'],
     alias: {
       '@': resolve(__dirname, '../src'),
+      // 修复 mermaid 依赖的 cytoscape 包 exports 字段配置缺陷
+      // cytoscape 的 exports 中 ./dist/cytoscape.umd.js 只有 require 条件，缺少 import 条件
+      // webpack 5 生产模式优先使用 import 条件解析，导致模块解析失败
+      // 通过 alias 直接指向文件路径绕过 exports 限制
+      'cytoscape/dist/cytoscape.umd.js': require.resolve(
+        'cytoscape/dist/cytoscape.umd.js',
+      ),
     },
   },
   stats: 'errors-only',
