@@ -19,7 +19,6 @@ import successIcon from '@/images/icon_success.svg'
 import copyIcon from '@/images/icon_copy.svg'
 import className from '@/config/class-name'
 import Ele, { svg } from './ele'
-import { escapeHtml } from 'markdown-it/lib/common/utils'
 
 type Plugins = { [p: string]: ((a: MdOptions) => any[]) | any[] }
 const PLUGINS: Plugins = {
@@ -66,25 +65,41 @@ function initRender({ config = {}, plugins = [...MD_PLUGINS] }: MdOptions) {
     linkify: true,
     xhtmlOut: true,
     typographer: true,
-    highlight(str: string, language: string) {
-      if (language && hljs.getLanguage(language)) {
-        try {
-          return `<pre class="hljs-pre md-reader__code-block"><code class="hljs" lang="${language}">${
-            hljs.highlight(str, { language, ignoreIllegals: true }).value
-          }</code>${copyButton.ele.outerHTML}</pre>`
-        } catch (err) {
-          console.error(err)
-          return 'parse error'
-        }
-      }
-      const code = escapeHtml(str)
-      return `<pre class="hljs-pre md-reader__code-block"><code class="hljs ${language}">${code}</code>${copyButton.ele.outerHTML}</pre>`
-    },
     ...config,
   })
 
-  // parse email
-  md.linkify.set({ fuzzyEmail: true })
+  md.options.highlight = function (str: string, language: string) {
+    if (language && hljs.getLanguage(language)) {
+      try {
+        return `<pre class="hljs-pre md-reader__code-block"><code class="hljs" lang="${language}">${
+          hljs.highlight(str, { language, ignoreIllegals: true }).value
+        }</code>${copyButton.ele.outerHTML}</pre>`
+      } catch (err) {
+        console.error(err)
+        return 'parse error'
+      }
+    }
+    const code = md.utils.escapeHtml(str)
+    return `<pre class="hljs-pre md-reader__code-block"><code class="hljs ${language}">${code}</code>${copyButton.ele.outerHTML}</pre>`
+  }
+
+  // parse email and disable fuzzyLink to avoid nested link conflicts
+  md.linkify.set({
+    fuzzyLink: false, // 禁用模糊链接识别，避免嵌套链接冲突
+    fuzzyEmail: true, // 保持邮箱自动识别
+  })
+
+  // allow file:// protocol in links
+  const defaultValidateLink = md.validateLink.bind(md)
+  md.validateLink = function (url: string) {
+    // 允许 file:// 协议
+    if (url.toLowerCase().startsWith('file://')) {
+      return true
+    }
+    // 其他协议使用默认验证
+    return defaultValidateLink(url)
+  }
+
   // builtin plugins
   md.use(mMultimdTable)
 
