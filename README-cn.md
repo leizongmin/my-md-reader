@@ -1,6 +1,6 @@
 # Markdown Reader
 
-<img alt="Markdown Reader Logo" src="https://raw.githubusercontent.com/md-reader/md-reader/main/src//images/logo-stroke.svg" align="right" width="120">
+<img alt="Markdown Reader Logo" src="https://raw.githubusercontent.com/leizongmin/my-md-reader/main/src//images/logo-stroke.svg" align="right" width="120">
 
 [English](./README.md) | 中文 | [한국어](./README-ko.md)
 
@@ -40,7 +40,7 @@ Markdown Reader 是一款强大的浏览器扩展程序，能让你在浏览器�
 
    ```bash
    # 克隆本仓库
-   git clone https://github.com/md-reader/md-reader.git && cd md-reader
+   git clone https://github.com/leizongmin/my-md-reader.git && cd md-reader
 
    # 安装依赖
    pnpm install
@@ -69,7 +69,7 @@ Markdown Reader 是一款强大的浏览器扩展程序，能让你在浏览器�
 
 现在所有工作都完成啦~！ヾ(◍°∇°◍)ﾉ
 
-打开这个在线文档试一下效果吧：[示例文档](https://raw.githubusercontent.com/md-reader/md-reader/main/example/example.md)；你还可以试试直接将 Markdown 文档 **拖进浏览器**！
+打开这个在线文档试一下效果吧：[示例文档](https://raw.githubusercontent.com/leizongmin/my-md-reader/main/example/example.md)；你还可以试试直接将 Markdown 文档 **拖进浏览器**！
 
 欢迎提出你的使用问题和建议。
 
@@ -83,6 +83,7 @@ Markdown Reader 是一款强大的浏览器扩展程序，能让你在浏览器�
 
 ## 协议
 
-License [MIT](https://github.com/md-reader/md-reader/blob/main/LICENSE)
+License [MIT](https://github.com/leizongmin/my-md-reader/blob/main/LICENSE)
 
-© 2018-present, [Bener](https://github.com/Heroor)
+© 2018-2025, [Bener](https://github.com/Heroor)
+© 2026-present, [LEI Zongmin](https://github.com/leizongmin)

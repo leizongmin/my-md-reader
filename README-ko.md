@@ -1,6 +1,6 @@
 # Markdown Reader
 
-<img alt="Markdown Reader Logo" src="https://raw.githubusercontent.com/md-reader/md-reader/main/src//images/logo-stroke.svg" align="right" width="120">
+<img alt="Markdown Reader Logo" src="https://raw.githubusercontent.com/leizongmin/my-md-reader/main/src//images/logo-stroke.svg" align="right" width="120">
 
 [English](./README.md) | [中文](./README-cn.md) | 한국어
 
@@ -40,7 +40,7 @@ Chrome의 예:
 
    ```bash
    # 이 저장소를 복제합니다
-   git clone https://github.com/md-reader/md-reader.git && cd md-reader
+   git clone https://github.com/leizongmin/my-md-reader.git && cd md-reader
 
    # 의존성을 설치합니다
    pnpm install
@@ -69,7 +69,7 @@ Chrome 확장 프로그램 관리 페이지에서 설치한 "Markdown Reader" �
 
 이제 모든 작업이 완료되었습니다~! ヾ(◍°∇°◍)ﾉ
 
-이 온라인 문서를 열어 효과를 확인해보세요: [예시 문서](https://raw.githubusercontent.com/md-reader/md-reader/main/example/example.md); 또한 마크다운 문서를 브라우저로 직접 드래그하여 시도해볼 수도 있습니다!
+이 온라인 문서를 열어 효과를 확인해보세요: [예시 문서](https://raw.githubusercontent.com/leizongmin/my-md-reader/main/example/example.md); 또한 마크다운 문서를 브라우저로 직접 드래그하여 시도해볼 수도 있습니다!
 
 질문이나 제안이 있으면 언제든지 말씀해주세요.
 
@@ -77,6 +77,7 @@ Chrome 확장 프로그램 관리 페이지에서 설치한 "Markdown Reader" �
 
 ## 라이선스
 
-라이선스 [MIT](https://github.com/md-reader/md-reader/blob/main/LICENSE)
+라이선스 [MIT](https://github.com/leizongmin/my-md-reader/blob/main/LICENSE)
 
-© 2018-present, [Bener](https://github.com/Heroor)
+© 2018-2025, [Bener](https://github.com/Heroor)
+© 2026-present, [LEI Zongmin](https://github.com/leizongmin)

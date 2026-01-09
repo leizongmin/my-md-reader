@@ -1,6 +1,6 @@
 # Markdown Reader
 
-<img alt="Markdown Reader Logo" src="https://raw.githubusercontent.com/md-reader/md-reader/main/src//images/logo-stroke.svg" align="right" width="120">
+<img alt="Markdown Reader Logo" src="https://raw.githubusercontent.com/leizongmin/my-md-reader/main/src//images/logo-stroke.svg" align="right" width="120">
 
 English | [中文](./README-cn.md) | [한국어](./README-ko.md)
 
@@ -12,7 +12,7 @@ Markdown Reader is a powerful browser extension that enables you to conveniently
 
 > This repository contains the old source code of Markdown Reader(2.x version) and is no longer maintained.
 > It is used only to collect issues about Markdown Reader.
-> 
+>
 > Please download the 3.x version from the [website](https://md-reader.github.io).
 
 - **Document Formats**: Preview links in `file://`, `http://`, `https://` and files with `.md`, `.mkd`, `.mdx`, `.markdown` extensions:
@@ -45,7 +45,7 @@ Example of Chrome:
 
    ```bash
    # Clone this repository
-   git clone https://github.com/md-reader/md-reader.git && cd md-reader
+   git clone https://github.com/leizongmin/my-md-reader.git && cd md-reader
 
    # Install dependencies
    pnpm install
@@ -74,7 +74,7 @@ In the Chrome Extensions management page, locate the installed "Markdown Reader"
 
 Now all the work is done~!ヾ(◍°∇°◍)ﾉ
 
-Try the effect by opening this online document: [Example Document](https://raw.githubusercontent.com/md-reader/md-reader/main/example/example.md); You can also try dragging a Markdown document directly into the browser!
+Try the effect by opening this online document: [Example Document](https://raw.githubusercontent.com/leizongmin/my-md-reader/main/example/example.md); You can also try dragging a Markdown document directly into the browser!
 
 Feel free to ask any questions or provide suggestions.
 
@@ -88,6 +88,7 @@ Scan the code to get the latest news and technical support:
 
 ## License
 
-License [MIT](https://github.com/md-reader/md-reader/blob/main/LICENSE)
+License [MIT](https://github.com/leizongmin/my-md-reader/blob/main/LICENSE)
 
-© 2018-present, [Bener](https://github.com/Heroor)
+© 2018-2025, [Bener](https://github.com/Heroor)
+© 2026-present, [LEI Zongmin](https://github.com/leizongmin)

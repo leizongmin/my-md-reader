@@ -239,7 +239,7 @@ $$
 |   λ    |  $\lambda$ - $\Lambda$  |   ω    |   $\omega$ - $\Omega$   |
 |   μ    |      $\mu$ - $\Mu$      |        |                         |
 
-### [MerMaid](https://github.com/md-reader/markdown-it-mermaid#readme)
+### [MerMaid](https://github.com/leizongmin/my-md-reader/markdown-it-mermaid#readme)
 
 ```mermaid
 sequenceDiagram
@@ -287,7 +287,7 @@ It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
 
 `*[HTML]: Hyper Text Markup Language`
 
-*[HTML]: Hyper Text Markup Language
+\*[HTML]: Hyper Text Markup Language
 
 ### [Definition lists](https://github.com/markdown-it/markdown-it-deflist)
 

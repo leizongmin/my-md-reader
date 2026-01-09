@@ -1,19 +1,19 @@
 {
-  "name": "md-reader",
-  "version": "2.12.12",
-  "author": "Bener",
+  "name": "@leizm/my-md-reader",
+  "version": "1.0.0",
+  "author": "LEI Zongmin",
   "license": "MIT",
   "description": "A markdown reader extension for chrome",
-  "homepage": "https://md-reader.github.io",
+  "homepage": "https://github.com/leizongmin/my-md-reader",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Heroor/md-reader.git"
+    "url": "git+https://github.com/leizongmin/my-md-reader.git"
   },
   "bugs": {
-    "url": "https://github.com/Heroor/md-reader/issues"
+    "url": "https://github.com/leizongmin/my-md-reader/issues"
   },
   "keywords": [
-    "md-reader",
+    "my-md-reader",
     "markdown",
     "markdown reader",
     "chrome extension"
