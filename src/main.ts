@@ -173,7 +173,11 @@ function main(data: Data) {
     return
   }
 
-  function wrapAsCodeBlock(content: string, language: string): string {
+  function wrapAsCodeBlock(
+    content: string,
+    language: string,
+    showLineNumbers?: boolean,
+  ): string {
     const copyButton = new Ele<HTMLElement>(
       'button',
       {
@@ -203,7 +207,8 @@ function main(data: Data) {
 
     let lineNumbersHtml = ''
     let preClass = 'hljs-pre md-reader__code-block'
-    if (configData.showLineNumbers) {
+    const shouldShowLineNumbers = showLineNumbers ?? configData.showLineNumbers
+    if (shouldShowLineNumbers) {
       const lines = content.split('\n')
       const lineCount =
         lines.length > 0 && lines[lines.length - 1] === ''
@@ -258,13 +263,19 @@ function main(data: Data) {
     if (shouldRenderAsCodeBlock()) {
       const ext = getFileExtension()
       const language = getLanguageFromExtension(ext)
-      mdContent.innerHTML = wrapAsCodeBlock(code, language)
+      const hasLineNumberHash = !!window.location.hash?.match(/^L\d+(-L\d+)?$/)
+      const showLineNumbers = configData.showLineNumbers || hasLineNumberHash
+      mdContent.innerHTML = wrapAsCodeBlock(code, language, showLineNumbers)
     } else {
       mdRenderer(mdContent)(code)
     }
   }
 
   contentRender(mdRaw)
+
+  setTimeout(() => {
+    updateAnchorPosition()
+  }, 100)
 
   mdContent.on(
     'click',
@@ -273,6 +284,38 @@ function main(data: Data) {
     },
     true,
   )
+
+  if (shouldRenderAsCodeBlock()) {
+    const lineNumbersEl = mdContent.ele.querySelector('.hljs-line-numbers')
+    if (lineNumbersEl) {
+      const listener = function (e: MouseEvent) {
+        const target = e.target as HTMLElement
+        if (target.tagName === 'SPAN') {
+          e.preventDefault()
+          const lineNumber = parseInt(target.textContent || '0', 10)
+          const hash = window.location.hash.slice(1)
+          if (hash?.includes('-L')) {
+            const match = hash.match(/^L(\d+)-L(\d+)$/)
+            if (match) {
+              const start = parseInt(match[1], 10)
+              const end = parseInt(match[2], 10)
+              if (lineNumber < start) {
+                history.pushState(null, '', `#L${lineNumber}-L${end}`)
+              } else if (lineNumber > end) {
+                history.pushState(null, '', `#L${start}-L${lineNumber}`)
+              } else {
+                history.pushState(null, '', `#L${lineNumber}`)
+              }
+            }
+          } else {
+            history.pushState(null, '', `#L${lineNumber}`)
+          }
+          scrollToCodeLine(window.location.hash.slice(1))
+        }
+      }
+      ;(lineNumbersEl as HTMLElement).addEventListener('click', listener)
+    }
+  }
 
   const mdBody = new Ele<HTMLElement>(
     'main',
@@ -383,7 +426,18 @@ function main(data: Data) {
 
   /* mount elements */
   lifecycle.mount([buttonWrap, mdBody, mdSide])
-  updateAnchorPosition()
+
+  window.addEventListener('hashchange', e => {
+    if (shouldRenderAsCodeBlock()) {
+      const hash = window.location.hash.slice(1)
+      if (hash.match(/^L\d+(-L\d+)?$/)) {
+        e.preventDefault()
+        scrollToCodeLine(hash)
+      }
+    } else {
+      updateAnchorPosition()
+    }
+  })
 
   darkMediaQuery.addEventListener('change', (e: MediaQueryListEvent) => {
     if (configData.pageTheme === 'auto') {
@@ -522,17 +576,90 @@ function main(data: Data) {
 
   function updateAnchorPosition() {
     if (window.location.hash) {
-      setTimeout(() => {
-        const hash = window.location.hash.slice(1)
-        const target = headElements.find(head => {
-          return head.getAttribute('id') === hash
+      const hash = window.location.hash.slice(1)
+      if (shouldRenderAsCodeBlock() && hash.match(/^L\d+(-L\d+)?$/)) {
+        scrollToCodeLine(hash)
+      } else {
+        setTimeout(() => {
+          const target = headElements.find(head => {
+            return head.getAttribute('id') === hash
+          })
+          if (target) {
+            const top = target.offsetTop
+            top && window.scrollTo(0, top)
+          }
         })
-        if (target) {
-          const top = target.offsetTop
-          top && window.scrollTo(0, top)
-        }
-      })
+      }
     }
+  }
+
+  function parseLineNumbers(
+    hash: string,
+  ): { start: number; end: number } | null {
+    const match = hash.match(/^L(\d+)(?:-L(\d+))?$/)
+    if (!match) return null
+    const start = parseInt(match[1], 10)
+    const end = match[2] ? parseInt(match[2], 10) : start
+    return { start, end }
+  }
+
+  function scrollToCodeLine(hash: string) {
+    const doScroll = () => {
+      const lineNumbers = parseLineNumbers(hash)
+      if (!lineNumbers) return
+
+      const { start, end } = lineNumbers
+      const lineNumbersEl = mdContent.ele.querySelector('.hljs-line-numbers')
+      const codeEl = mdContent.ele.querySelector('code.hljs') as HTMLElement
+      if (!lineNumbersEl || !codeEl) {
+        setTimeout(doScroll, 50)
+        return
+      }
+
+      const lineSpans = lineNumbersEl.querySelectorAll('span')
+      if (lineSpans.length === 0) {
+        setTimeout(doScroll, 50)
+        return
+      }
+
+      lineSpans.forEach(span =>
+        (span as HTMLElement).classList.remove('highlighted'),
+      )
+
+      const existingHighlight = mdContent.ele.querySelector('.code-highlight')
+      existingHighlight && existingHighlight.remove()
+
+      const targetSpan = lineSpans[start - 1] as HTMLElement
+      if (!targetSpan) return
+
+      const pre = mdContent.ele.querySelector('pre')
+      if (pre) {
+        const preRect = pre.getBoundingClientRect()
+        const preInPageTop = preRect.top + window.scrollY
+        const firstSpan = lineSpans[0] as HTMLElement
+        const secondSpan = lineSpans[1] as HTMLElement
+        const lineHeight = secondSpan
+          ? secondSpan.offsetTop - firstSpan.offsetTop
+          : firstSpan.offsetHeight
+        const targetLineTop = targetSpan.offsetTop
+        const scrollPosition =
+          preInPageTop + targetLineTop - window.innerHeight / 2 + lineHeight / 2
+        window.scrollTo({ top: scrollPosition, behavior: 'smooth' })
+
+        const highlightDiv = document.createElement('div')
+        highlightDiv.className = 'code-highlight'
+        highlightDiv.style.top = `${targetLineTop}px`
+        highlightDiv.style.height = `${(end - start + 1) * lineHeight}px`
+        ;(pre as HTMLElement).style.position = 'relative'
+        ;(pre as HTMLElement).appendChild(highlightDiv)
+      }
+
+      for (let i = start - 1; i < end && i < lineSpans.length; i++) {
+        const span = lineSpans[i] as HTMLElement
+        span.classList.add('highlighted')
+      }
+    }
+    setTimeout(doScroll, 50)
   }
 }
 
