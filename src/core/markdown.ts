@@ -44,9 +44,14 @@ export interface MdOptions {
   [key: string]: any
   config?: MarkdownIt.Options
   plugins?: Array<string>
+  showLineNumbers?: boolean
 }
 
-function initRender({ config = {}, plugins = [...MD_PLUGINS] }: MdOptions) {
+function initRender({
+  config = {},
+  plugins = [...MD_PLUGINS],
+  showLineNumbers = false,
+}: MdOptions) {
   const copyButton = new Ele<HTMLElement>(
     'button',
     {
@@ -69,18 +74,42 @@ function initRender({ config = {}, plugins = [...MD_PLUGINS] }: MdOptions) {
   })
 
   md.options.highlight = function (str: string, language: string) {
+    let highlightedCode: string
     if (language && hljs.getLanguage(language)) {
       try {
-        return `<pre class="hljs-pre md-reader__code-block"><code class="hljs" lang="${language}">${
-          hljs.highlight(str, { language, ignoreIllegals: true }).value
-        }</code>${copyButton.ele.outerHTML}</pre>`
+        highlightedCode = hljs.highlight(str, {
+          language,
+          ignoreIllegals: true,
+        }).value
       } catch (err) {
         console.error(err)
         return 'parse error'
       }
+    } else {
+      highlightedCode = md.utils.escapeHtml(str)
     }
-    const code = md.utils.escapeHtml(str)
-    return `<pre class="hljs-pre md-reader__code-block"><code class="hljs ${language}">${code}</code>${copyButton.ele.outerHTML}</pre>`
+
+    let lineNumbersHtml = ''
+    let preClass = 'hljs-pre md-reader__code-block'
+    if (showLineNumbers) {
+      const lines = str.split('\n')
+      const lineCount =
+        lines.length > 0 && lines[lines.length - 1] === ''
+          ? lines.length - 1
+          : lines.length
+      lineNumbersHtml = '<div class="hljs-line-numbers">'
+      for (let i = 1; i <= lineCount; i++) {
+        lineNumbersHtml += `<span>${i}</span>`
+      }
+      lineNumbersHtml += '</div>'
+      preClass += ' has-line-numbers'
+    }
+
+    return `<pre class="${preClass}">${lineNumbersHtml}<code class="hljs ${
+      language ? '' : ''
+    }" lang="${language}">${highlightedCode}</code>${
+      copyButton.ele.outerHTML
+    }</pre>`
   }
 
   // parse email and disable fuzzyLink to avoid nested link conflicts

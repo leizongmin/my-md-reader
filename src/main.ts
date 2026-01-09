@@ -52,6 +52,11 @@ function main(data: Data) {
     toggleCentered(value) {
       mdContent.classList.toggle('centered', value)
     },
+    toggleLineNumbers(value) {
+      if (mdRaw) {
+        contentRender(mdRaw)
+      }
+    },
     toggleSide() {
       onToggleSide()
     },
@@ -189,7 +194,23 @@ function main(data: Data) {
       highlightedCode = hljs.highlightAuto(content).value
     }
 
-    return `<pre class="hljs-pre md-reader__code-block"><code class="hljs" lang="${language}">${highlightedCode}</code>${copyButton.ele.outerHTML}</pre>`
+    let lineNumbersHtml = ''
+    let preClass = 'hljs-pre md-reader__code-block'
+    if (configData.showLineNumbers) {
+      const lines = content.split('\n')
+      const lineCount =
+        lines.length > 0 && lines[lines.length - 1] === ''
+          ? lines.length - 1
+          : lines.length
+      lineNumbersHtml = '<div class="hljs-line-numbers">'
+      for (let i = 1; i <= lineCount; i++) {
+        lineNumbersHtml += `<span>${i}</span>`
+      }
+      lineNumbersHtml += '</div>'
+      preClass += ' has-line-numbers'
+    }
+
+    return `<pre class="${preClass}">${lineNumbersHtml}<code class="hljs" lang="${language}">${highlightedCode}</code>${copyButton.ele.outerHTML}</pre>`
   }
 
   initPlugins({ event: globalEvent })
@@ -217,6 +238,7 @@ function main(data: Data) {
       target.innerHTML = mdRender(code, {
         theme: toTheme(configData.pageTheme),
         plugins: configData.mdPlugins,
+        showLineNumbers: configData.showLineNumbers,
         ...options,
       })
     }

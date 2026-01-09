@@ -87,6 +87,18 @@
       </FormField>
     </div>
 
+    <div class="form-item inline">
+      <span class="label-item">{localize('label_show-line-numbers')}:</span>
+      <FormField align="end">
+        <Switch
+          disabled={!data.enable}
+          bind:checked={data.showLineNumbers}
+          color="primary"
+          on:change={() => updateConfig('showLineNumbers', data.showLineNumbers)}
+        />
+      </FormField>
+    </div>
+
     <div class="form-item">
       <div class="label-item">{localize('label_md-plugins')}:</div>
       <Set

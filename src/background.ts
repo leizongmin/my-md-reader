@@ -48,6 +48,7 @@ const actionMap = {
   enable: 'reload',
   refresh: 'toggleRefresh',
   centered: 'toggleCentered',
+  showLineNumbers: 'toggleLineNumbers',
   mdPlugins: 'updateMdPlugins',
   pageTheme: 'updatePageTheme',
   hiddenSide: 'toggleSide',

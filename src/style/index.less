@@ -176,10 +176,55 @@ body.md-reader {
         code {
           font-size: 0.875rem;
         }
-        pre > code {
+        pre.has-line-numbers {
+          border: 1px solid var(--color-border);
+          border-radius: 8px;
+          padding: 1rem;
+        }
+        pre.has-line-numbers > code {
+          padding: 0;
+          border: none;
+        }
+        .hljs-line-numbers {
+          display: inline-block;
+          vertical-align: top;
+          padding: 0;
+          text-align: right;
+          margin-right: 1rem;
+          border-right: 1px solid var(--color-border);
+          user-select: none;
+          color: var(--color-blockquote);
+          min-width: 2.5em;
+          font-size: 0.875rem;
+          line-height: 1.75;
+          font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo,
+            monospace;
+          box-sizing: border-box;
+        }
+        .hljs-line-numbers span {
+          display: block;
+          padding-right: 0.75em;
+        }
+        .hljs-line-numbers + code {
+          display: inline-block;
+          vertical-align: top;
+          width: calc(100% - 3.5rem);
+          padding: 0;
+          font-size: 0.875rem;
+          line-height: 1.75;
+          font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo,
+            monospace;
+        }
+        .hljs-line-numbers + code * {
+          font-size: inherit;
+          line-height: inherit;
+        }
+        pre:not(.has-line-numbers) > code {
           padding: 1rem 1.25rem;
           border-radius: 8px;
           border: 1px solid var(--color-border);
+          font-size: 0.875rem;
+          line-height: 1.75;
         }
         pre + pre {
           margin-top: 0.5rem;
