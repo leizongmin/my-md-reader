@@ -7,6 +7,7 @@ export interface Data {
   refresh?: boolean
   language?: string
   centered?: boolean
+  pageWidth?: 'default' | 'full'
   mdPlugins?: typeof MD_PLUGINS
   pageTheme?: (typeof PAGE_THEMES)[0]
   hiddenSide?: boolean
@@ -20,6 +21,7 @@ export function getDefaultData(mergeData: Data = {}): Data {
     centered: true,
     hiddenSide: false,
     showLineNumbers: false,
+    pageWidth: 'default',
     language: i18n().locale,
     mdPlugins: [...MD_PLUGINS],
     pageTheme: PAGE_THEMES[0],

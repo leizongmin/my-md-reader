@@ -100,6 +100,28 @@
     </div>
 
     <div class="form-item">
+      <div class="label-item">{localize('label_page-width')}:</div>
+      <FormField>
+        <span slot="label">{localize('default')}</span>
+        <Radio
+          disabled={!data.enable}
+          bind:group={data.pageWidth}
+          value={'default'}
+          on:change={() => updateConfig('pageWidth', 'default')}
+        />
+      </FormField>
+      <FormField>
+        <span slot="label">{localize('full')}</span>
+        <Radio
+          disabled={!data.enable}
+          bind:group={data.pageWidth}
+          value={'full'}
+          on:change={() => updateConfig('pageWidth', 'full')}
+        />
+      </FormField>
+    </div>
+
+    <div class="form-item">
       <div class="label-item">{localize('label_md-plugins')}:</div>
       <Set
         let:chip

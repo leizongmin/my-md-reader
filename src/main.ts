@@ -51,11 +51,18 @@ function main(data: Data) {
     },
     toggleCentered(value) {
       mdContent.classList.toggle('centered', value)
+      if (value) {
+        mdContent.classList.remove('full-width')
+      }
     },
     toggleLineNumbers(value) {
       if (mdRaw) {
         contentRender(mdRaw)
       }
+    },
+    updatePageWidth(value) {
+      mdContent.classList.toggle('full-width', value === 'full')
+      mdContent.classList.toggle('centered', value === 'default')
     },
     toggleSide() {
       onToggleSide()
@@ -228,7 +235,11 @@ function main(data: Data) {
   /* render content */
   const mdContent = new Ele<HTMLElement>('article', {
     className: `${className.MD_CONTENT} ${
-      configData.centered ? 'centered' : ''
+      configData.pageWidth === 'full'
+        ? 'full-width'
+        : configData.centered
+        ? 'centered'
+        : ''
     }`,
   })
 
