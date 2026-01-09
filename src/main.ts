@@ -17,6 +17,9 @@ import {
   getMediaQueryTheme,
   toTheme,
 } from '@/shared'
+import hljs from 'highlight.js'
+import copyIcon from '@/images/icon_copy.svg'
+import successIcon from '@/images/icon_success.svg'
 import codeIcon from '@/images/icon_code.svg'
 import sideIcon from '@/images/icon_side.svg'
 import goTopIcon from '@/images/icon_go_top.svg'
@@ -59,24 +62,143 @@ function main(data: Data) {
     actions[action]?.(value, oldValue)
   })
 
-  if (!configData.enable || !CONTENT_TYPES.includes(document.contentType)) {
-    return
-  }
-
   let pollingTimer: number = null
   let reloading: boolean = false
   let mdRaw: string = null
   let isSideHover: boolean = false
   let globalEvent: Event = new Event()
 
+  function getFileExtension(): string {
+    const url = window.location.pathname
+    const match = url.match(/\.([^.]+)(?:\?.*)?$/)
+    return match ? match[1] : ''
+  }
+
+  function getLanguageFromExtension(ext: string): string {
+    const extMap: { [key: string]: string } = {
+      js: 'javascript',
+      jsx: 'javascript',
+      ts: 'typescript',
+      tsx: 'typescript',
+      go: 'go',
+      rs: 'rust',
+      py: 'python',
+      java: 'java',
+      c: 'c',
+      cpp: 'cpp',
+      cc: 'cpp',
+      h: 'c',
+      hpp: 'cpp',
+      cs: 'csharp',
+      php: 'php',
+      rb: 'ruby',
+      swift: 'swift',
+      kt: 'kotlin',
+      kts: 'kotlin',
+      scala: 'scala',
+      hs: 'haskell',
+      lua: 'lua',
+      pl: 'perl',
+      sh: 'bash',
+      bash: 'bash',
+      zsh: 'bash',
+      fish: 'bash',
+      json: 'json',
+      xml: 'xml',
+      yaml: 'yaml',
+      yml: 'yaml',
+      toml: 'toml',
+      ini: 'ini',
+      conf: 'ini',
+      cfg: 'ini',
+      sql: 'sql',
+      css: 'css',
+      scss: 'scss',
+      less: 'less',
+      html: 'html',
+      htm: 'html',
+      vue: 'vue',
+      svelte: 'svelte',
+      md: 'markdown',
+      markdown: 'markdown',
+    }
+    return extMap[ext.toLowerCase()] || 'plaintext'
+  }
+
+  function shouldRenderAsCodeBlock(): boolean {
+    const ext = getFileExtension()
+    if (!ext) return false
+    const lang = getLanguageFromExtension(ext)
+    const markdownExtensions = ['md', 'markdown']
+    return (
+      !markdownExtensions.includes(ext.toLowerCase()) && lang !== 'plaintext'
+    )
+  }
+
+  function isMarkdownFile(): boolean {
+    const ext = getFileExtension()
+    const markdownExtensions = ['md', 'markdown']
+    return markdownExtensions.includes(ext.toLowerCase())
+  }
+
+  function shouldProcessFile(): boolean {
+    return shouldRenderAsCodeBlock() || isMarkdownFile()
+  }
+
+  if (!configData.enable) {
+    return
+  }
+
+  if (!shouldProcessFile()) {
+    return
+  }
+
+  if (isMarkdownFile() && !CONTENT_TYPES.includes(document.contentType)) {
+    return
+  }
+
+  if (shouldRenderAsCodeBlock() && document.contentType !== 'text/plain') {
+    return
+  }
+
+  function wrapAsCodeBlock(content: string, language: string): string {
+    const copyButton = new Ele<HTMLElement>(
+      'button',
+      {
+        className: [className.MD_BUTTON, className.COPY_BTN],
+        title: 'Copy',
+      },
+      [
+        svg(copyIcon, { className: 'icon-copy' }),
+        svg(successIcon, { className: 'icon-success' }),
+      ],
+    )
+
+    let highlightedCode: string
+    if (language && hljs.getLanguage(language)) {
+      try {
+        highlightedCode = hljs.highlight(content, {
+          language,
+          ignoreIllegals: true,
+        }).value
+      } catch (err) {
+        console.error(err)
+        highlightedCode = hljs.highlightAuto(content).value
+      }
+    } else {
+      highlightedCode = hljs.highlightAuto(content).value
+    }
+
+    return `<pre class="hljs-pre md-reader__code-block"><code class="hljs" lang="${language}">${highlightedCode}</code>${copyButton.ele.outerHTML}</pre>`
+  }
+
   initPlugins({ event: globalEvent })
 
   /* init md page */
   setTheme(configData.pageTheme)
-  document.body.classList.toggle(
-    className.SIDE_COLLAPSED,
-    configData.hiddenSide,
-  )
+
+  const shouldHideSide = configData.hiddenSide || shouldRenderAsCodeBlock()
+  document.body.classList.toggle(className.SIDE_COLLAPSED, shouldHideSide)
 
   const rawContainer = getRawContainer()
   lifecycle.init(rawContainer)
@@ -98,7 +220,17 @@ function main(data: Data) {
         ...options,
       })
     }
-  const contentRender = mdRenderer(mdContent)
+
+  const contentRender = (code: string) => {
+    if (shouldRenderAsCodeBlock()) {
+      const ext = getFileExtension()
+      const language = getLanguageFromExtension(ext)
+      mdContent.innerHTML = wrapAsCodeBlock(code, language)
+    } else {
+      mdRenderer(mdContent)(code)
+    }
+  }
+
   contentRender(mdRaw)
 
   mdContent.on(
@@ -128,6 +260,10 @@ function main(data: Data) {
   mdSide.on('mouseleave', () => {
     isSideHover = false
   })
+
+  if (shouldRenderAsCodeBlock()) {
+    mdSide.hide()
+  }
 
   renderSide()
   document.addEventListener('scroll', throttle(onScroll, 100))
