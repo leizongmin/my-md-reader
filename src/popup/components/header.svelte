@@ -16,7 +16,7 @@
     padding: 0 0 22px;
     margin: 0;
     font-size: 18px;
-    color: #35363a;
+    color: #607cd2;
   }
   h1 a {
     display: flex;
