@@ -7,3 +7,5 @@ extension.pem
 .vscode/settings.json
 .idea
 .fleet
+
+.trae/refactor
