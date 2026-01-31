@@ -1,12 +1,10 @@
-# Markdown Reader
+# Markdown Reader (Fork)
 
 <img alt="Markdown Reader Logo" src="https://raw.githubusercontent.com/leizongmin/my-md-reader/main/src//images/logo-stroke.svg" align="right" width="120">
 
-[English](./README.md) | 中文 | [한국어](./README-ko.md)
+[English](./README.md) | 中文
 
-https://md-reader.github.io
-
-[![](https://badgen.net/chrome-web-store/v/medapdbncneneejhbgcjceippjlfkmkg?icon=chrome&color=607cd2)](https://chromewebstore.google.com/detail/md-reader/medapdbncneneejhbgcjceippjlfkmkg) [![](https://badgen.net/chrome-web-store/stars/medapdbncneneejhbgcjceippjlfkmkg?icon=chrome&color=607cd2)](https://chromewebstore.google.com/detail/md-reader/medapdbncneneejhbgcjceippjlfkmkg) [![](https://badgen.net/chrome-web-store/users/medapdbncneneejhbgcjceippjlfkmkg?icon=chrome&color=607cd2)](https://chromewebstore.google.com/detail/md-reader/medapdbncneneejhbgcjceippjlfkmkg)
+> **说明**：本项目 fork 自 [md-reader](https://github.com/nicepkg/md-reader)，根据个人需要做了一些功能改进和样式调整。
 
 Markdown Reader 是一款强大的浏览器扩展程序，能让你在浏览器中快捷的预览 Markdown 文档。
 
@@ -21,18 +19,9 @@ Markdown Reader 是一款强大的浏览器扩展程序，能让你在浏览器�
 
 ![banner](./example/example-1.png)
 
-默认的主题样式存储在 https://github.com/md-reader/theme 中。如果你想查看或自定义主题样式，可以访问该链接并根据需要调整 CSS 文件。
-
 ## 安装
 
-### A. 在浏览器应用商店安装（需要机智上网）
-
-<a href="https://chromewebstore.google.com/detail/md-reader/medapdbncneneejhbgcjceippjlfkmkg" target="_blank"><img src="./src/images/Chrome.png" style="width:50px"/></a>
-<a href="https://microsoftedge.microsoft.com/addons/detail/markdown-reader/djnplooklihmkcioemdjfcednfkpiodc" target="_blank"><img src="./src/images/Edge.png" style="width:50px"/></a>
-<a href="https://addons.mozilla.org/firefox/addon/markdown-reader-ext/" target="_blank"><img src="./src/images/Firefox.png" style="width:50px"/></a>
-<a href="https://chromewebstore.google.com/detail/md-reader/medapdbncneneejhbgcjceippjlfkmkg" target="_blank"><img src="./src/images/Arc.png" style="width:50px"/></a>
-
-### B. 本地构建
+### 本地构建
 
 以 Chrome 为例：
 
@@ -74,12 +63,6 @@ Markdown Reader 是一款强大的浏览器扩展程序，能让你在浏览器�
 欢迎提出你的使用问题和建议。
 
 点一颗星星（star）支持一下也是对我的鼓励哦~！
-
-## Markdown Reader 官方微信公众号
-
-扫码关注获取最新动态与技术支持：
-
-<img src="./src/images/mp-qrcode.jpg" alt="" style="width:220px"/>
 
 ## 协议
 

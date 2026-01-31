@@ -1,19 +1,13 @@
-# Markdown Reader
+# Markdown Reader (Fork)
 
 <img alt="Markdown Reader Logo" src="https://raw.githubusercontent.com/leizongmin/my-md-reader/main/src//images/logo-stroke.svg" align="right" width="120">
 
-English | [中文](./README-cn.md) | [한국어](./README-ko.md)
+English | [中文](./README-cn.md)
 
-https://md-reader.github.io
-
-[![](https://badgen.net/chrome-web-store/v/medapdbncneneejhbgcjceippjlfkmkg?icon=chrome&color=607cd2)](https://chromewebstore.google.com/detail/md-reader/medapdbncneneejhbgcjceippjlfkmkg) [![](https://badgen.net/chrome-web-store/stars/medapdbncneneejhbgcjceippjlfkmkg?icon=chrome&color=607cd2)](https://chromewebstore.google.com/detail/md-reader/medapdbncneneejhbgcjceippjlfkmkg) [![](https://badgen.net/chrome-web-store/users/medapdbncneneejhbgcjceippjlfkmkg?icon=chrome&color=607cd2)](https://chromewebstore.google.com/detail/md-reader/medapdbncneneejhbgcjceippjlfkmkg)
+> **Note**: This project is forked from [md-reader](https://github.com/nicepkg/md-reader).
+> Some features and styles have been customized based on personal preferences.
 
 Markdown Reader is a powerful browser extension that enables you to conveniently preview Markdown documents in your browser.
-
-> This repository contains the old source code of Markdown Reader(2.x version) and is no longer maintained.
-> It is used only to collect issues about Markdown Reader.
->
-> Please download the 3.x version from the [website](https://md-reader.github.io).
 
 - **Document Formats**: Preview links in `file://`, `http://`, `https://` and files with `.md`, `.mkd`, `.mdx`, `.markdown` extensions:
   - `https://example.com/example.md` (online Markdown URL)
@@ -26,18 +20,9 @@ Markdown Reader is a powerful browser extension that enables you to conveniently
 
 ![banner](./example/example-1.png)
 
-The default theme styles are stored in https://github.com/md-reader/theme. If you’d like to view or customize the theme styles, feel free to visit the link and adjust the CSS files as needed.
-
 ## Installation
 
-### A. Install from web extension Store
-
-<a href="https://chromewebstore.google.com/detail/md-reader/medapdbncneneejhbgcjceippjlfkmkg" target="_blank"><img src="./src/images/Chrome.png" style="width:50px"/></a>
-<a href="https://microsoftedge.microsoft.com/addons/detail/markdown-reader/djnplooklihmkcioemdjfcednfkpiodc" target="_blank"><img src="./src/images/Edge.png" style="width:50px"/></a>
-<a href="https://addons.mozilla.org/firefox/addon/markdown-reader-ext/" target="_blank"><img src="./src/images/Firefox.png" style="width:50px"/></a>
-<a href="https://chromewebstore.google.com/detail/md-reader/medapdbncneneejhbgcjceippjlfkmkg" target="_blank"><img src="./src/images/Arc.png" style="width:50px"/></a>
-
-### B. Building installation
+### Building from Source
 
 Example of Chrome:
 
@@ -79,12 +64,6 @@ Try the effect by opening this online document: [Example Document](https://raw.g
 Feel free to ask any questions or provide suggestions.
 
 Giving a star to show your support is also an encouragement for me~!
-
-## Join the WeChat Community
-
-Scan the code to get the latest news and technical support:
-
-<img src="./src/images/mp-qrcode.jpg" alt="" style="width:220px"/>
 
 ## License
 
