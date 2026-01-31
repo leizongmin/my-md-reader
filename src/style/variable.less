@@ -137,13 +137,18 @@
   }
   &::-webkit-scrollbar-track {
     width: var(--size-scrollbar);
-    background: transparent;
+    background: var(--color-primary-alpha-05);
+    border-radius: var(--size-scrollbar);
   }
   &::-webkit-scrollbar-thumb {
     border-radius: var(--size-scrollbar);
     background: var(--color-scrollbar-thumb);
+    transition: background 0.2s ease;
   }
   &::-webkit-scrollbar-thumb:hover {
     background: var(--color-scrollbar-thumb-hover);
+  }
+  &::-webkit-scrollbar-corner {
+    background: transparent;
   }
 }
