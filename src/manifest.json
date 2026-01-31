@@ -1,7 +1,7 @@
 {
   "name": "__MSG_ext_name__",
-  "version": "1.0.0",
-  "version_name": "1.0.0",
+  "version": "1.0.1",
+  "version_name": "1.0.1",
   "author": "LEI Zongmin",
   "manifest_version": 3,
   "description": "__MSG_ext_desc__",
