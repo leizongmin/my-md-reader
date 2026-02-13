@@ -19,7 +19,8 @@
   },
   "categories": [
     "Other",
-    "Visualization"
+    "Visualization",
+    "Themes"
   ],
   "keywords": [
     "markdown",
@@ -38,6 +39,18 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "themes": [
+      {
+        "label": "MD Reader Light",
+        "uiTheme": "vs",
+        "path": "./themes/md-reader-light-color-theme.json"
+      },
+      {
+        "label": "MD Reader Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/md-reader-dark-color-theme.json"
+      }
+    ],
     "commands": [
       {
         "command": "myMdReader.preview",
