@@ -1,0 +1,200 @@
+{
+  "name": "my-md-reader",
+  "displayName": "Markdown Reader",
+  "description": "A beautiful Markdown preview extension with TOC, themes, code highlighting, Mermaid diagrams, and KaTeX math support",
+  "version": "1.0.0",
+  "publisher": "leizongmin",
+  "author": "LEI Zongmin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leizongmin/my-md-reader"
+  },
+  "bugs": {
+    "url": "https://github.com/leizongmin/my-md-reader/issues"
+  },
+  "homepage": "https://github.com/leizongmin/my-md-reader#readme",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "keywords": [
+    "markdown",
+    "preview",
+    "mermaid",
+    "katex",
+    "toc"
+  ],
+  "icon": "media/logo.png",
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
+  "activationEvents": [
+    "onLanguage:markdown"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "myMdReader.preview",
+        "title": "Markdown Reader: Preview",
+        "icon": "$(open-preview)"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "resourceExtname =~ /\\.(md|mdx|mkd|markdown)$/i",
+          "command": "myMdReader.preview",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "when": "resourceExtname =~ /\\.(md|mdx|mkd|markdown)$/i",
+          "command": "myMdReader.preview",
+          "group": "navigation"
+        }
+      ],
+      "editor/title": [
+        {
+          "when": "resourceExtname =~ /\\.(md|mdx|mkd|markdown)$/i",
+          "command": "myMdReader.preview",
+          "group": "navigation"
+        }
+      ],
+      "editor/title/context": [
+        {
+          "when": "resourceExtname =~ /\\.(md|mdx|mkd|markdown)$/i",
+          "command": "myMdReader.preview",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Markdown Reader",
+      "properties": {
+        "myMdReader.pageTheme": {
+          "type": "string",
+          "enum": [
+            "light",
+            "dark",
+            "auto"
+          ],
+          "default": "auto",
+          "description": "Theme for the preview panel (light, dark, or auto to follow VS Code theme)"
+        },
+        "myMdReader.pageWidth": {
+          "type": "string",
+          "enum": [
+            "default",
+            "full"
+          ],
+          "default": "default",
+          "description": "Width of the preview content"
+        },
+        "myMdReader.centered": {
+          "type": "boolean",
+          "default": true,
+          "description": "Center the preview content"
+        },
+        "myMdReader.showLineNumbers": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show line numbers in code blocks"
+        },
+        "myMdReader.hiddenSide": {
+          "type": "boolean",
+          "default": false,
+          "description": "Hide the sidebar (TOC) by default"
+        },
+        "myMdReader.mdPlugins": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "Emoji",
+              "Sub",
+              "Sup",
+              "Ins",
+              "Abbr",
+              "Katex",
+              "Mermaid",
+              "Mark",
+              "Deflist",
+              "Footnote",
+              "TaskLists",
+              "TOC",
+              "Alert"
+            ]
+          },
+          "default": [
+            "Emoji",
+            "Sub",
+            "Sup",
+            "Ins",
+            "Abbr",
+            "Katex",
+            "Mermaid",
+            "Mark",
+            "Deflist",
+            "Footnote",
+            "TaskLists",
+            "TOC",
+            "Alert"
+          ],
+          "description": "Enabled Markdown plugins"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development --watch",
+    "package": "vsce package",
+    "lint": "prettier --write --ignore-unknown"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^12.2.3",
+    "@types/node": "^18.7.14",
+    "@types/vscode": "^1.74.0",
+    "@vscode/vsce": "^2.22.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.1",
+    "esbuild-loader": "^2.20.0",
+    "less": "^4.1.3",
+    "less-loader": "^11.0.0",
+    "mini-css-extract-plugin": "^2.6.1",
+    "style-loader": "^3.3.1",
+    "typescript": "^4.8.2",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "dependencies": {
+    "@md-reader/markdown-it-mermaid": "^0.5.1",
+    "@md-reader/theme": "1.0.23-patch.1",
+    "@mdit/plugin-alert": "^0.22.1",
+    "@traptitech/markdown-it-katex": "^3.6.0",
+    "highlight.js": "^11.6.0",
+    "lodash.debounce": "^4.0.8",
+    "lodash.throttle": "^4.1.1",
+    "markdown-it": "^14.1.0",
+    "markdown-it-abbr": "^1.0.4",
+    "markdown-it-container": "^3.0.0",
+    "markdown-it-deflist": "^2.1.0",
+    "markdown-it-emoji": "^2.0.2",
+    "markdown-it-footnote": "^3.0.3",
+    "markdown-it-ins": "^3.0.1",
+    "markdown-it-mark": "^3.0.1",
+    "markdown-it-multimd-table": "^4.2.0",
+    "markdown-it-sub": "^1.0.0",
+    "markdown-it-sup": "^1.0.0",
+    "markdown-it-table-of-contents": "^0.6.0",
+    "markdown-it-task-lists": "^2.1.1"
+  }
+}
