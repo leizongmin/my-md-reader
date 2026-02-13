@@ -7,11 +7,12 @@ import { getConfiguration, PreviewConfig } from './utils/config'
  * 负责创建、更新和管理 Webview 预览面板
  */
 export class MarkdownPreviewPanel {
-  public static currentPanel: MarkdownPreviewPanel | undefined
+  private static readonly panels: Map<string, MarkdownPreviewPanel> = new Map()
   public static readonly viewType = 'myMdReader.preview'
 
   private readonly _panel: vscode.WebviewPanel
   private readonly _extensionUri: vscode.Uri
+  private readonly _documentUri: string
   private _document: vscode.TextDocument
   private _disposables: vscode.Disposable[] = []
 
@@ -22,14 +23,15 @@ export class MarkdownPreviewPanel {
     extensionUri: vscode.Uri,
     document: vscode.TextDocument,
   ) {
-    const column = vscode.window.activeTextEditor
-      ? vscode.window.activeTextEditor.viewColumn
-      : undefined
+    const column = vscode.ViewColumn.Active
 
-    if (MarkdownPreviewPanel.currentPanel) {
-      MarkdownPreviewPanel.currentPanel._document = document
-      MarkdownPreviewPanel.currentPanel._panel.reveal(column)
-      MarkdownPreviewPanel.currentPanel._update()
+    const documentKey = document.uri.fsPath
+    const existingPanel = MarkdownPreviewPanel.panels.get(documentKey)
+
+    if (existingPanel) {
+      existingPanel._document = document
+      existingPanel._panel.reveal(column)
+      existingPanel._update()
       return
     }
 
@@ -45,7 +47,7 @@ export class MarkdownPreviewPanel {
     const panel = vscode.window.createWebviewPanel(
       MarkdownPreviewPanel.viewType,
       `${path.basename(document.fileName)} Preview`,
-      column || vscode.ViewColumn.One,
+      column,
       {
         enableScripts: true,
         retainContextWhenHidden: true,
@@ -53,34 +55,30 @@ export class MarkdownPreviewPanel {
       },
     )
 
-    MarkdownPreviewPanel.currentPanel = new MarkdownPreviewPanel(
-      panel,
-      extensionUri,
-      document,
-    )
+    const previewPanel = new MarkdownPreviewPanel(panel, extensionUri, document)
+    MarkdownPreviewPanel.panels.set(documentKey, previewPanel)
   }
 
   /**
    * 更新指定文档的预览内容
    */
   public static update(document: vscode.TextDocument) {
-    if (
-      MarkdownPreviewPanel.currentPanel &&
-      MarkdownPreviewPanel.currentPanel._document.uri.fsPath ===
-        document.uri.fsPath
-    ) {
-      MarkdownPreviewPanel.currentPanel._document = document
-      MarkdownPreviewPanel.currentPanel._update()
+    const documentKey = document.uri.fsPath
+    const existingPanel = MarkdownPreviewPanel.panels.get(documentKey)
+
+    if (existingPanel) {
+      existingPanel._document = document
+      existingPanel._update()
     }
   }
 
   /**
-   * 更新配置
+   * 更新所有面板的配置
    */
   public static updateConfiguration() {
-    if (MarkdownPreviewPanel.currentPanel) {
-      MarkdownPreviewPanel.currentPanel._updateConfig()
-    }
+    MarkdownPreviewPanel.panels.forEach(panel => {
+      panel._updateConfig()
+    })
   }
 
   private constructor(
@@ -91,6 +89,7 @@ export class MarkdownPreviewPanel {
     this._panel = panel
     this._extensionUri = extensionUri
     this._document = document
+    this._documentUri = document.uri.fsPath
 
     this._panel.webview.html = this._getHtmlContent()
 
@@ -120,7 +119,7 @@ export class MarkdownPreviewPanel {
    * 清理资源
    */
   public dispose() {
-    MarkdownPreviewPanel.currentPanel = undefined
+    MarkdownPreviewPanel.panels.delete(this._documentUri)
     this._panel.dispose()
     while (this._disposables.length) {
       const disposable = this._disposables.pop()
