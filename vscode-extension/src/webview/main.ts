@@ -15,6 +15,7 @@ interface PreviewConfig {
   showLineNumbers: boolean
   hiddenSide: boolean
   mdPlugins: string[]
+  fontSize: number
 }
 
 interface VscodeApi {
@@ -66,17 +67,14 @@ function init() {
   body.innerHTML = ''
 
   setTheme(config.pageTheme)
+  setFontSize(config.fontSize || 14)
 
   const shouldHideSide = config.hiddenSide
   body.classList.toggle(className.SIDE_COLLAPSED, shouldHideSide)
 
   const mdContent = document.createElement('article')
   mdContent.className = `${className.MD_CONTENT} ${
-    config.pageWidth === 'full'
-      ? 'full-width'
-      : config.centered
-      ? 'centered'
-      : ''
+    config.centered ? 'centered' : ''
   }`
 
   const mdBody = document.createElement('main')
@@ -163,6 +161,13 @@ function createButton(
 function setTheme(theme: 'light' | 'dark' | 'auto') {
   const html = document.documentElement
   html.dataset.mdReaderTheme = theme === 'auto' ? getSystemTheme() : theme
+}
+
+function setFontSize(fontSize: number) {
+  document.documentElement.style.setProperty(
+    '--md-reader-font-size',
+    `${fontSize}px`,
+  )
 }
 
 function getSystemTheme(): 'light' | 'dark' {
@@ -375,12 +380,9 @@ function applyConfig(mdContent: HTMLElement, mdSide: HTMLElement) {
   const body = document.body
 
   setTheme(config.pageTheme)
+  setFontSize(config.fontSize || 14)
 
   mdContent.classList.toggle('centered', config.centered)
-  mdContent.classList.toggle('full-width', config.pageWidth === 'full')
-  if (config.pageWidth === 'full') {
-    mdContent.classList.remove('centered')
-  }
 
   body.classList.toggle(className.SIDE_COLLAPSED, config.hiddenSide)
 

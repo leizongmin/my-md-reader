@@ -99,8 +99,15 @@
         },
         "myMdReader.centered": {
           "type": "boolean",
-          "default": true,
+          "default": false,
           "description": "Center the preview content"
+        },
+        "myMdReader.fontSize": {
+          "type": "number",
+          "default": 14,
+          "minimum": 8,
+          "maximum": 32,
+          "description": "Font size in pixels for the preview content"
         },
         "myMdReader.showLineNumbers": {
           "type": "boolean",

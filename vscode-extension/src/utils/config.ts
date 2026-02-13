@@ -10,6 +10,7 @@ export interface PreviewConfig {
   showLineNumbers: boolean
   hiddenSide: boolean
   mdPlugins: string[]
+  fontSize: number
 }
 
 /**
@@ -40,10 +41,11 @@ export function getConfiguration(): PreviewConfig {
   return {
     pageTheme: config.get<'light' | 'dark' | 'auto'>('pageTheme', 'auto'),
     pageWidth: config.get<'default' | 'full'>('pageWidth', 'default'),
-    centered: config.get<boolean>('centered', true),
+    centered: config.get<boolean>('centered', false),
     showLineNumbers: config.get<boolean>('showLineNumbers', false),
     hiddenSide: config.get<boolean>('hiddenSide', false),
     mdPlugins: config.get<string[]>('mdPlugins', DEFAULT_MD_PLUGINS),
+    fontSize: config.get<number>('fontSize', 14),
   }
 }
 
@@ -56,7 +58,7 @@ export function getActualTheme(
   if (theme === 'auto') {
     const vsCodeTheme = vscode.window.activeColorTheme.kind
     return vsCodeTheme === vscode.ColorThemeKind.Dark ||
-      vsCodeTheme === vscode.ColorThemeKind.HighContrastDark
+      vsCodeTheme === vscode.ColorThemeKind.HighContrast
       ? 'dark'
       : 'light'
   }
