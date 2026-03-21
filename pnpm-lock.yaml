@@ -88,6 +88,9 @@ importers:
       svelte:
         specifier: ^3.50.0
         version: 3.59.2
+      yaml:
+        specifier: ^2.8.3
+        version: 2.8.3
     devDependencies:
       '@nuxt/friendly-errors-webpack-plugin':
         specifier: ^2.5.2
@@ -4888,6 +4891,14 @@ packages:
       }
     engines: { node: '>= 14' }
 
+  yaml@2.8.3:
+    resolution:
+      {
+        integrity: sha512-AvbaCLOO2Otw/lW5bmh9d/WEdcDFdQp2Z2ZUH3pX9U2ihyUY0nvLv7J6TrWowklRGPYbB/IuIMfYgxaCPg5Bpg==,
+      }
+    engines: { node: '>= 14.6' }
+    hasBin: true
+
   yamlparser@0.0.2:
     resolution:
       {
@@ -7906,6 +7917,8 @@ snapshots:
   yallist@2.1.2: {}
 
   yaml@2.3.1: {}
+
+  yaml@2.8.3: {}
 
   yamlparser@0.0.2: {}
 

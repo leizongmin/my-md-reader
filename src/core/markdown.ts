@@ -1,5 +1,6 @@
 import hljs from 'highlight.js'
 import MarkdownIt from 'markdown-it'
+import { parse as parseYaml } from 'yaml'
 import mSub from 'markdown-it-sub'
 import mSup from 'markdown-it-sup'
 import mIns from 'markdown-it-ins'
@@ -144,8 +145,53 @@ function initRender({
   return md
 }
 
-// identify & filter frontmatter
-function removeFrontmatter(content: string): string {
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+function parseFrontmatter(content: string): Record<string, unknown> | null {
+  if (!content.startsWith('---\n')) return null
+  const endIndex = content.indexOf('\n---\n', 4)
+  if (endIndex === -1) return null
+  const yamlText = content.slice(4, endIndex)
+  try {
+    const data = parseYaml(yamlText)
+    if (data && typeof data === 'object' && !Array.isArray(data)) {
+      return data as Record<string, unknown>
+    }
+  } catch {
+    return null
+  }
+  return null
+}
+
+function formatFrontmatterValue(v: unknown): string {
+  if (Array.isArray(v)) {
+    return v.map(item => escapeHtml(String(item))).join(', ')
+  }
+  if (v !== null && typeof v === 'object') {
+    return escapeHtml(JSON.stringify(v))
+  }
+  return escapeHtml(String(v))
+}
+
+function frontmatterToHtml(data: Record<string, unknown>): string {
+  const rows = Object.entries(data)
+    .map(([k, v]) => {
+      return `<tr><th>${escapeHtml(k)}</th><td>${formatFrontmatterValue(
+        v,
+      )}</td></tr>`
+    })
+    .join('')
+  return `<table class="md-reader__frontmatter"><tbody>${rows}</tbody></table>`
+}
+
+function stripFrontmatter(content: string): string {
   const frontmatterRegex = /^---[\s\S]+?---\n/
   return content.replace(frontmatterRegex, '')
 }
@@ -158,9 +204,12 @@ export const mdRender: MdRender = (code, options): string => {
   if (!mdRender.md || options) {
     mdRender.md = initRender(options)
   }
-  // filter frontmatter
-  const filteredCode = removeFrontmatter(code)
-  return mdRender.md.render(filteredCode)
+  const frontmatterData = parseFrontmatter(code)
+  const frontmatterHtml = frontmatterData
+    ? frontmatterToHtml(frontmatterData)
+    : ''
+  const bodyHtml = mdRender.md.render(stripFrontmatter(code))
+  return frontmatterHtml + bodyHtml
 }
 
 export default initRender

@@ -1,5 +1,6 @@
 import hljs from 'highlight.js'
 import MarkdownIt from 'markdown-it'
+import { parse as parseYaml } from 'yaml'
 import mSub from 'markdown-it-sub'
 import mSup from 'markdown-it-sup'
 import mIns from 'markdown-it-ins'
@@ -144,10 +145,62 @@ export function initMarkdownRenderer(options: MdOptions = {}): MarkdownIt {
   return md
 }
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+/**
+ * 解析 frontmatter 键值对
+ */
+function parseFrontmatter(content: string): Record<string, unknown> | null {
+  if (!content.startsWith('---\n')) return null
+  const endIndex = content.indexOf('\n---\n', 4)
+  if (endIndex === -1) return null
+  const yamlText = content.slice(4, endIndex)
+  try {
+    const data = parseYaml(yamlText)
+    if (data && typeof data === 'object' && !Array.isArray(data)) {
+      return data as Record<string, unknown>
+    }
+  } catch {
+    return null
+  }
+  return null
+}
+
+function formatFrontmatterValue(v: unknown): string {
+  if (Array.isArray(v)) {
+    return v.map(item => escapeHtml(String(item))).join(', ')
+  }
+  if (v !== null && typeof v === 'object') {
+    return escapeHtml(JSON.stringify(v))
+  }
+  return escapeHtml(String(v))
+}
+
+/**
+ * 将 frontmatter 数据渲染为 HTML 表格
+ */
+function frontmatterToHtml(data: Record<string, unknown>): string {
+  const rows = Object.entries(data)
+    .map(([k, v]) => {
+      return `<tr><th>${escapeHtml(k)}</th><td>${formatFrontmatterValue(
+        v,
+      )}</td></tr>`
+    })
+    .join('')
+  return `<table class="md-reader__frontmatter"><tbody>${rows}</tbody></table>`
+}
+
 /**
  * 移除 frontmatter
  */
-function removeFrontmatter(content: string): string {
+function stripFrontmatter(content: string): string {
   const frontmatterRegex = /^---[\s\S]+?---\n/
   return content.replace(frontmatterRegex, '')
 }
@@ -159,6 +212,10 @@ export function mdRender(code: string): string {
   if (!md) {
     md = initMarkdownRenderer()
   }
-  const filteredCode = removeFrontmatter(code)
-  return md.render(filteredCode)
+  const frontmatterData = parseFrontmatter(code)
+  const frontmatterHtml = frontmatterData
+    ? frontmatterToHtml(frontmatterData)
+    : ''
+  const bodyHtml = md.render(stripFrontmatter(code))
+  return frontmatterHtml + bodyHtml
 }
