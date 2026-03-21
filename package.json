@@ -1,6 +1,6 @@
 {
   "name": "@leizm/my-md-reader",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "LEI Zongmin",
   "license": "MIT",
   "description": "A markdown reader extension for chrome",

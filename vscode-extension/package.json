@@ -2,7 +2,7 @@
   "name": "my-md-reader",
   "displayName": "My MD Reader",
   "description": "A beautiful Markdown preview extension with TOC, themes, code highlighting, Mermaid diagrams, and KaTeX math support",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "leizongmin",
   "author": "LEI Zongmin",
   "license": "MIT",
