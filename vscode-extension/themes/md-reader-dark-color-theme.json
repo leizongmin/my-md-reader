@@ -264,7 +264,7 @@
     "gitDecoration.conflictingResourceForeground": "#e4676b",
     "gitDecoration.submoduleResourceForeground": "#8db9e2",
 
-    "terminal.background": "#232326",
+    "terminal.background": "#1c1c1f",
     "terminal.foreground": "#cccccc",
     "terminal.ansiBlack": "#000000",
     "terminal.ansiBlue": "#2472c8",
