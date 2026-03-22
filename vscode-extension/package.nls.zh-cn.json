@@ -1,0 +1,13 @@
+{
+  "displayName": "My MD Reader",
+  "description": "美观的 Markdown 预览插件，支持目录、主题、代码高亮、Mermaid 图表和 KaTeX 数学公式",
+  "command.preview.title": "用 My MD Reader 预览",
+  "configuration.title": "My MD Reader",
+  "configuration.pageTheme.description": "预览面板的主题（light 浅色、dark 深色，或 auto 跟随 VS Code 主题）",
+  "configuration.pageWidth.description": "预览内容的宽度",
+  "configuration.centered.description": "居中显示预览内容",
+  "configuration.fontSize.description": "预览内容的字体大小（像素）",
+  "configuration.showLineNumbers.description": "在代码块中显示行号",
+  "configuration.hiddenSide.description": "默认隐藏侧边栏（目录）",
+  "configuration.mdPlugins.description": "启用的 Markdown 插件"
+}

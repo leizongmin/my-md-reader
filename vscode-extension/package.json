@@ -1,7 +1,7 @@
 {
   "name": "my-md-reader",
-  "displayName": "My MD Reader",
-  "description": "A beautiful Markdown preview extension with TOC, themes, code highlighting, Mermaid diagrams, and KaTeX math support",
+  "displayName": "%displayName%",
+  "description": "%description%",
   "version": "1.0.1",
   "publisher": "leizongmin",
   "author": "LEI Zongmin",
@@ -54,7 +54,7 @@
     "commands": [
       {
         "command": "myMdReader.preview",
-        "title": "Markdown Reader: Preview",
+        "title": "%command.preview.title%",
         "icon": "$(open-preview)"
       }
     ],
@@ -89,7 +89,7 @@
       ]
     },
     "configuration": {
-      "title": "Markdown Reader",
+      "title": "%configuration.title%",
       "properties": {
         "myMdReader.pageTheme": {
           "type": "string",
@@ -99,7 +99,7 @@
             "auto"
           ],
           "default": "auto",
-          "description": "Theme for the preview panel (light, dark, or auto to follow VS Code theme)"
+          "description": "%configuration.pageTheme.description%"
         },
         "myMdReader.pageWidth": {
           "type": "string",
@@ -108,29 +108,29 @@
             "full"
           ],
           "default": "default",
-          "description": "Width of the preview content"
+          "description": "%configuration.pageWidth.description%"
         },
         "myMdReader.centered": {
           "type": "boolean",
           "default": false,
-          "description": "Center the preview content"
+          "description": "%configuration.centered.description%"
         },
         "myMdReader.fontSize": {
           "type": "number",
           "default": 14,
           "minimum": 8,
           "maximum": 32,
-          "description": "Font size in pixels for the preview content"
+          "description": "%configuration.fontSize.description%"
         },
         "myMdReader.showLineNumbers": {
           "type": "boolean",
           "default": false,
-          "description": "Show line numbers in code blocks"
+          "description": "%configuration.showLineNumbers.description%"
         },
         "myMdReader.hiddenSide": {
           "type": "boolean",
           "default": false,
-          "description": "Hide the sidebar (TOC) by default"
+          "description": "%configuration.hiddenSide.description%"
         },
         "myMdReader.mdPlugins": {
           "type": "array",
@@ -167,7 +167,7 @@
             "TOC",
             "Alert"
           ],
-          "description": "Enabled Markdown plugins"
+          "description": "%configuration.mdPlugins.description%"
         }
       }
     }

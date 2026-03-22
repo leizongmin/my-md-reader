@@ -1,0 +1,13 @@
+{
+  "displayName": "My MD Reader",
+  "description": "A beautiful Markdown preview extension with TOC, themes, code highlighting, Mermaid diagrams, and KaTeX math support",
+  "command.preview.title": "Open Preview with My MD Reader",
+  "configuration.title": "My MD Reader",
+  "configuration.pageTheme.description": "Theme for the preview panel (light, dark, or auto to follow VS Code theme)",
+  "configuration.pageWidth.description": "Width of the preview content",
+  "configuration.centered.description": "Center the preview content",
+  "configuration.fontSize.description": "Font size in pixels for the preview content",
+  "configuration.showLineNumbers.description": "Show line numbers in code blocks",
+  "configuration.hiddenSide.description": "Hide the sidebar (TOC) by default",
+  "configuration.mdPlugins.description": "Enabled Markdown plugins"
+}
