@@ -2,6 +2,7 @@
   "displayName": "My MD Reader",
   "description": "美观的 Markdown 预览插件，支持目录、主题、代码高亮、Mermaid 图表和 KaTeX 数学公式",
   "command.preview.title": "用 My MD Reader 预览",
+  "command.htmlPreview.title": "用 My MD Reader 预览 HTML",
   "configuration.title": "My MD Reader",
   "configuration.pageTheme.description": "预览面板的主题（light 浅色、dark 深色，或 auto 跟随 VS Code 主题）",
   "configuration.pageWidth.description": "预览内容的宽度",

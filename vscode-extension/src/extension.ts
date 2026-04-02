@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
 import { MarkdownPreviewPanel } from './preview'
+import { HtmlPreviewPanel } from './htmlPreview'
 
 /**
  * 插件激活入口
@@ -47,10 +48,52 @@ export function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(previewCommand)
 
+  const htmlPreviewCommand = vscode.commands.registerCommand(
+    'myMdReader.htmlPreview',
+    async (uri?: vscode.Uri) => {
+      let targetUri = uri
+
+      if (!targetUri) {
+        const activeEditor = vscode.window.activeTextEditor
+        if (activeEditor && isHtmlFile(activeEditor.document.uri)) {
+          targetUri = activeEditor.document.uri
+        }
+      }
+
+      if (!targetUri) {
+        vscode.window.showErrorMessage(
+          'Please open an HTML file or right-click on an HTML file in the explorer',
+        )
+        return
+      }
+
+      if (!isHtmlFile(targetUri)) {
+        vscode.window.showErrorMessage('Please select an HTML file')
+        return
+      }
+
+      try {
+        const document = await vscode.workspace.openTextDocument(targetUri)
+        HtmlPreviewPanel.createOrShow(context.extensionUri, document)
+      } catch (error) {
+        vscode.window.showErrorMessage(
+          `Failed to open file: ${
+            error instanceof Error ? error.message : 'Unknown error'
+          }`,
+        )
+      }
+    },
+  )
+
+  context.subscriptions.push(htmlPreviewCommand)
+
   context.subscriptions.push(
     vscode.workspace.onDidSaveTextDocument(document => {
       if (isMarkdownFile(document.uri)) {
         MarkdownPreviewPanel.update(document)
+      }
+      if (isHtmlFile(document.uri)) {
+        HtmlPreviewPanel.update(document)
       }
     }),
   )
@@ -75,6 +118,14 @@ function isMarkdownFile(uri: vscode.Uri): boolean {
     ext.endsWith('.mkd') ||
     ext.endsWith('.markdown')
   )
+}
+
+/**
+ * 检查文件是否为 HTML 文件
+ */
+function isHtmlFile(uri: vscode.Uri): boolean {
+  const ext = uri.fsPath.toLowerCase()
+  return ext.endsWith('.html') || ext.endsWith('.htm')
 }
 
 /**

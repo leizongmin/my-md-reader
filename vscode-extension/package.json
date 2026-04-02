@@ -35,7 +35,8 @@
     "theme": "dark"
   },
   "activationEvents": [
-    "onLanguage:markdown"
+    "onLanguage:markdown",
+    "onLanguage:html"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -56,6 +57,11 @@
         "command": "myMdReader.preview",
         "title": "%command.preview.title%",
         "icon": "$(open-preview)"
+      },
+      {
+        "command": "myMdReader.htmlPreview",
+        "title": "%command.htmlPreview.title%",
+        "icon": "$(open-preview)"
       }
     ],
     "menus": {
@@ -64,12 +70,22 @@
           "when": "resourceExtname =~ /\\.(md|mdx|mkd|markdown)$/i",
           "command": "myMdReader.preview",
           "group": "navigation"
+        },
+        {
+          "when": "resourceExtname =~ /\\.(html|htm)$/i",
+          "command": "myMdReader.htmlPreview",
+          "group": "navigation"
         }
       ],
       "editor/context": [
         {
           "when": "resourceExtname =~ /\\.(md|mdx|mkd|markdown)$/i",
           "command": "myMdReader.preview",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceExtname =~ /\\.(html|htm)$/i",
+          "command": "myMdReader.htmlPreview",
           "group": "navigation"
         }
       ],
@@ -78,12 +94,22 @@
           "when": "resourceExtname =~ /\\.(md|mdx|mkd|markdown)$/i",
           "command": "myMdReader.preview",
           "group": "navigation"
+        },
+        {
+          "when": "resourceExtname =~ /\\.(html|htm)$/i",
+          "command": "myMdReader.htmlPreview",
+          "group": "navigation"
         }
       ],
       "editor/title/context": [
         {
           "when": "resourceExtname =~ /\\.(md|mdx|mkd|markdown)$/i",
           "command": "myMdReader.preview",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceExtname =~ /\\.(html|htm)$/i",
+          "command": "myMdReader.htmlPreview",
           "group": "navigation"
         }
       ]

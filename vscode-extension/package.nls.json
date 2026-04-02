@@ -2,6 +2,7 @@
   "displayName": "My MD Reader",
   "description": "A beautiful Markdown preview extension with TOC, themes, code highlighting, Mermaid diagrams, and KaTeX math support",
   "command.preview.title": "Open Preview with My MD Reader",
+  "command.htmlPreview.title": "Open HTML Preview with My MD Reader",
   "configuration.title": "My MD Reader",
   "configuration.pageTheme.description": "Theme for the preview panel (light, dark, or auto to follow VS Code theme)",
   "configuration.pageWidth.description": "Width of the preview content",
