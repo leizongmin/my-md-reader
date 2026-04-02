@@ -2,6 +2,8 @@ import * as vscode from 'vscode'
 import * as path from 'path'
 import { getConfiguration, PreviewConfig } from './utils/config'
 
+const MARKDOWN_EXTENSIONS = new Set(['.md', '.mdx', '.mkd', '.markdown'])
+
 /**
  * Markdown 预览面板管理类
  * 负责创建、更新和管理 Webview 预览面板
@@ -106,6 +108,11 @@ export class MarkdownPreviewPanel {
               vscode.env.openExternal(vscode.Uri.parse(message.href))
             }
             return
+          case 'openFile':
+            if (message.filePath) {
+              this._openRelativeFile(message.filePath, message.anchor || '')
+            }
+            return
         }
       },
       null,
@@ -151,6 +158,44 @@ export class MarkdownPreviewPanel {
       dirPath,
       baseUri,
     })
+  }
+
+  /**
+   * 打开相对路径文件
+   */
+  private async _openRelativeFile(filePath: string, anchor: string) {
+    const currentDir = path.dirname(this._document.uri.fsPath)
+    const absolutePath = path.isAbsolute(filePath)
+      ? filePath
+      : path.resolve(currentDir, filePath)
+    const fileUri = vscode.Uri.file(absolutePath)
+    const ext = path.extname(absolutePath).toLowerCase()
+
+    if (MARKDOWN_EXTENSIONS.has(ext)) {
+      try {
+        const doc = await vscode.workspace.openTextDocument(fileUri)
+        MarkdownPreviewPanel.createOrShow(this._extensionUri, doc)
+        if (anchor) {
+          setTimeout(() => {
+            const panel = MarkdownPreviewPanel.panels.get(absolutePath)
+            if (panel) {
+              panel._panel.webview.postMessage({
+                command: 'scrollToAnchor',
+                anchor,
+              })
+            }
+          }, 500)
+        }
+      } catch (e) {
+        vscode.window.showErrorMessage(`Cannot open file: ${absolutePath}`)
+      }
+    } else {
+      try {
+        await vscode.commands.executeCommand('vscode.open', fileUri)
+      } catch (e) {
+        vscode.env.openExternal(fileUri)
+      }
+    }
   }
 
   /**

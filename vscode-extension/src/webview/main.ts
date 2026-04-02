@@ -120,7 +120,15 @@ function init() {
 
   mdContent.addEventListener('click', e => {
     const target = e.target as HTMLElement
-    handleContentClick(target)
+    const anchor = target.closest('a') as HTMLAnchorElement | null
+    if (anchor) {
+      const href = anchor.getAttribute('href')
+      const isRelative = !!anchor.dataset.relativePath
+      if (isRelative || (href && !href.startsWith('#'))) {
+        e.preventDefault()
+      }
+    }
+    handleContentClick(anchor || target)
   })
 
   document.addEventListener(
@@ -141,6 +149,17 @@ function init() {
       case 'updateConfig':
         config = message.config
         applyConfig(mdContent, mdSide)
+        break
+      case 'scrollToAnchor':
+        if (message.anchor) {
+          const id = message.anchor.startsWith('#')
+            ? message.anchor.slice(1)
+            : message.anchor
+          const el = document.getElementById(decodeURIComponent(id))
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' })
+          }
+        }
         break
     }
   })
@@ -206,7 +225,7 @@ function resolveResourcePaths(container: HTMLElement, baseUri: string) {
   container.querySelectorAll('a').forEach(a => {
     const href = a.getAttribute('href')
     if (href && isRelativePath(href) && !href.startsWith('#')) {
-      a.href = baseUrl + href
+      a.dataset.relativePath = href
     }
   })
 
@@ -398,8 +417,20 @@ function handleContentClick(target: HTMLElement) {
   }
 
   if (target.tagName === 'A') {
+    const relativePath = (target as HTMLAnchorElement).dataset.relativePath
+    if (relativePath) {
+      const hashIdx = relativePath.indexOf('#')
+      const filePath =
+        hashIdx !== -1 ? relativePath.slice(0, hashIdx) : relativePath
+      const anchor = hashIdx !== -1 ? relativePath.slice(hashIdx) : ''
+      vscode.postMessage({ command: 'openFile', filePath, anchor })
+      return
+    }
+
     const href = target.getAttribute('href')
-    if (href && (href.startsWith('http://') || href.startsWith('https://'))) {
+    if (!href) return
+
+    if (href.startsWith('http://') || href.startsWith('https://')) {
       vscode.postMessage({ command: 'openLink', href })
     }
   }
