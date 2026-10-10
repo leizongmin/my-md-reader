@@ -10,14 +10,20 @@ A beautiful Markdown preview extension for Visual Studio Code with TOC, themes, 
 - 📊 Mermaid diagram support
 - 🔢 KaTeX math formula support
 - 🖼️ Image preview with zoom
-- ⚡ Real-time preview on file save
+- 🌐 HTML and XML previews
+- ⚡ Automatic refresh for saved and externally changed files
+- 🔄 Manual refresh from the preview toolbar or context menu
 
 ## Usage
 
-1. Open a Markdown file (`.md`, `.mdx`, `.mkd`, `.markdown`)
+1. Open a Markdown, HTML, or XML file
 2. Right-click on the file in the Explorer or in the editor
-3. Select **"Markdown Reader: Preview"**
-4. A new tab will open with the rendered Markdown content
+3. Select the corresponding **"My MD Reader: Preview"** command
+4. A new tab will open with the rendered content
+
+Use the refresh button in the preview toolbar or the preview context menu to
+reload content manually. HTML and XML preview context menus also provide an
+entry for opening Webview Developer Tools.
 
 ## Configuration
 

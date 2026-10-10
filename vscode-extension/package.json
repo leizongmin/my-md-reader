@@ -2,7 +2,7 @@
   "name": "my-md-reader",
   "displayName": "%displayName%",
   "description": "%description%",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "publisher": "leizongmin",
   "author": "LEI Zongmin",
   "license": "MIT",
@@ -36,7 +36,8 @@
   },
   "activationEvents": [
     "onLanguage:markdown",
-    "onLanguage:html"
+    "onLanguage:html",
+    "onLanguage:xml"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -62,6 +63,20 @@
         "command": "myMdReader.htmlPreview",
         "title": "%command.htmlPreview.title%",
         "icon": "$(open-preview)"
+      },
+      {
+        "command": "myMdReader.xmlPreview",
+        "title": "%command.xmlPreview.title%",
+        "icon": "$(open-preview)"
+      },
+      {
+        "command": "myMdReader.refreshPreview",
+        "title": "%command.refreshPreview.title%",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "myMdReader.openPreviewDevTools",
+        "title": "%command.openPreviewDevTools.title%"
       }
     ],
     "menus": {
@@ -75,6 +90,11 @@
           "when": "resourceExtname =~ /\\.(html|htm)$/i",
           "command": "myMdReader.htmlPreview",
           "group": "navigation"
+        },
+        {
+          "when": "resourceExtname =~ /\\.xml$/i",
+          "command": "myMdReader.xmlPreview",
+          "group": "navigation"
         }
       ],
       "editor/context": [
@@ -86,6 +106,11 @@
         {
           "when": "resourceExtname =~ /\\.(html|htm)$/i",
           "command": "myMdReader.htmlPreview",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceExtname =~ /\\.xml$/i",
+          "command": "myMdReader.xmlPreview",
           "group": "navigation"
         }
       ],
@@ -99,6 +124,16 @@
           "when": "resourceExtname =~ /\\.(html|htm)$/i",
           "command": "myMdReader.htmlPreview",
           "group": "navigation"
+        },
+        {
+          "when": "resourceExtname =~ /\\.xml$/i",
+          "command": "myMdReader.xmlPreview",
+          "group": "navigation"
+        },
+        {
+          "when": "activeWebviewPanelId == 'myMdReader.preview' || activeWebviewPanelId == 'myMdReader.htmlPreview' || activeWebviewPanelId == 'myMdReader.xmlPreview'",
+          "command": "myMdReader.refreshPreview",
+          "group": "navigation@10"
         }
       ],
       "editor/title/context": [
@@ -111,6 +146,33 @@
           "when": "resourceExtname =~ /\\.(html|htm)$/i",
           "command": "myMdReader.htmlPreview",
           "group": "navigation"
+        },
+        {
+          "when": "resourceExtname =~ /\\.xml$/i",
+          "command": "myMdReader.xmlPreview",
+          "group": "navigation"
+        },
+        {
+          "when": "activeWebviewPanelId == 'myMdReader.preview' || activeWebviewPanelId == 'myMdReader.htmlPreview' || activeWebviewPanelId == 'myMdReader.xmlPreview'",
+          "command": "myMdReader.refreshPreview",
+          "group": "1_preview"
+        },
+        {
+          "when": "activeWebviewPanelId == 'myMdReader.htmlPreview' || activeWebviewPanelId == 'myMdReader.xmlPreview'",
+          "command": "myMdReader.openPreviewDevTools",
+          "group": "1_preview"
+        }
+      ],
+      "webview/context": [
+        {
+          "when": "webviewId == 'myMdReader.preview' || webviewId == 'myMdReader.htmlPreview' || webviewId == 'myMdReader.xmlPreview'",
+          "command": "myMdReader.refreshPreview",
+          "group": "navigation@1"
+        },
+        {
+          "when": "webviewId == 'myMdReader.htmlPreview' || webviewId == 'myMdReader.xmlPreview'",
+          "command": "myMdReader.openPreviewDevTools",
+          "group": "navigation@2"
         }
       ]
     },
@@ -203,6 +265,7 @@
     "build": "webpack --mode production",
     "dev": "webpack --mode development --watch",
     "package": "vsce package",
+    "test": "node --test test/*.test.js",
     "lint": "prettier --write --ignore-unknown"
   },
   "devDependencies": {

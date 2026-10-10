@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.2.0] - 2026-10-10
+
+### Added
+
+- Browser-style XML preview with syntax coloring and collapsible nodes
+- Manual preview refresh from the editor title and context menus
+- Webview Developer Tools command for HTML and XML previews
+
+### Fixed
+
+- Preview content now refreshes after files are changed externally, including over Remote SSH
+- Remote document URIs are preserved when loading previews and relative links
+- HTML base tags are injected correctly into compact documents
+
 ## [1.1.0] - 2026-04-02
 
 ### Added

@@ -1,5 +1,13 @@
 import * as vscode from 'vscode'
 import * as path from 'path'
+import { wrapHtmlContent } from './utils/html'
+import {
+  getDocumentDirectory,
+  getDocumentKey,
+  getErrorMessage,
+  readDocumentText,
+  watchDocument,
+} from './utils/previewDocument'
 
 /**
  * HTML 预览面板管理类
@@ -10,7 +18,7 @@ export class HtmlPreviewPanel {
   public static readonly viewType = 'myMdReader.htmlPreview'
 
   private readonly _panel: vscode.WebviewPanel
-  private readonly _documentUri: string
+  private readonly _documentKey: string
   private _document: vscode.TextDocument
   private _disposables: vscode.Disposable[] = []
 
@@ -22,7 +30,7 @@ export class HtmlPreviewPanel {
     document: vscode.TextDocument,
   ) {
     const column = vscode.ViewColumn.Active
-    const documentKey = document.uri.fsPath
+    const documentKey = getDocumentKey(document.uri)
     const existingPanel = HtmlPreviewPanel.panels.get(documentKey)
 
     if (existingPanel) {
@@ -32,7 +40,7 @@ export class HtmlPreviewPanel {
       return
     }
 
-    const documentDir = vscode.Uri.file(path.dirname(document.uri.fsPath))
+    const documentDir = getDocumentDirectory(document.uri)
     const workspaceFolders = vscode.workspace.workspaceFolders || []
     const localResourceRoots = [
       vscode.Uri.joinPath(extensionUri, 'dist'),
@@ -59,12 +67,26 @@ export class HtmlPreviewPanel {
    * 更新指定文档的预览内容
    */
   public static update(document: vscode.TextDocument) {
-    const documentKey = document.uri.fsPath
+    const documentKey = getDocumentKey(document.uri)
     const existingPanel = HtmlPreviewPanel.panels.get(documentKey)
     if (existingPanel) {
       existingPanel._document = document
       existingPanel._update()
     }
+  }
+
+  /**
+   * 从文件系统刷新当前激活的 HTML 预览
+   */
+  public static async refreshActive(): Promise<boolean> {
+    const activePanel = Array.from(HtmlPreviewPanel.panels.values()).find(
+      panel => panel._panel.active,
+    )
+    if (!activePanel) {
+      return false
+    }
+    await activePanel._refreshFromDisk(true)
+    return true
   }
 
   private constructor(
@@ -73,9 +95,21 @@ export class HtmlPreviewPanel {
   ) {
     this._panel = panel
     this._document = document
-    this._documentUri = document.uri.fsPath
+    this._documentKey = getDocumentKey(document.uri)
 
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables)
+    this._panel.onDidChangeViewState(
+      event => {
+        if (event.webviewPanel.active) {
+          void this._refreshFromDisk()
+        }
+      },
+      null,
+      this._disposables,
+    )
+    this._disposables.push(
+      watchDocument(document.uri, () => this._refreshFromDisk()),
+    )
     this._update()
   }
 
@@ -83,7 +117,7 @@ export class HtmlPreviewPanel {
    * 清理资源
    */
   public dispose() {
-    HtmlPreviewPanel.panels.delete(this._documentUri)
+    HtmlPreviewPanel.panels.delete(this._documentKey)
     this._panel.dispose()
     while (this._disposables.length) {
       const disposable = this._disposables.pop()
@@ -96,36 +130,34 @@ export class HtmlPreviewPanel {
   /**
    * 更新预览内容，将 HTML 文件内容直接作为 webview HTML 呈现
    */
-  private _update() {
+  private _update(htmlContent = this._document.getText()) {
     const fileName = path.basename(this._document.fileName)
     this._panel.title = `${fileName} Preview`
 
-    const htmlContent = this._document.getText()
-    const dirPath = path.dirname(this._document.uri.fsPath)
     const baseUri = this._panel.webview
-      .asWebviewUri(vscode.Uri.file(dirPath))
+      .asWebviewUri(getDocumentDirectory(this._document.uri))
       .toString()
 
-    this._panel.webview.html = this._wrapHtmlContent(htmlContent, baseUri)
+    this._panel.webview.html = wrapHtmlContent(htmlContent, baseUri)
   }
 
   /**
-   * 处理 HTML 内容，注入 base 标签使相对路径资源能正确加载
+   * 从文件系统读取最新内容并更新预览
    */
-  private _wrapHtmlContent(htmlContent: string, baseUri: string): string {
-    const baseTag = `<base href="${baseUri}/">`
-
-    if (/<head[\s>]/i.test(htmlContent)) {
-      return htmlContent.replace(/(<head[\s>][^>]*>)/i, `$1\n  ${baseTag}`)
+  private async _refreshFromDisk(showError = false) {
+    try {
+      const content =
+        !this._document.isClosed && this._document.isDirty
+          ? this._document.getText()
+          : await readDocumentText(this._document.uri)
+      this._update(content)
+    } catch (error) {
+      console.error('Failed to refresh HTML preview', error)
+      if (showError) {
+        vscode.window.showErrorMessage(
+          `Failed to refresh preview: ${getErrorMessage(error)}`,
+        )
+      }
     }
-
-    if (/<html[\s>]/i.test(htmlContent)) {
-      return htmlContent.replace(
-        /(<html[\s>][^>]*>)/i,
-        `$1\n<head>\n  ${baseTag}\n</head>`,
-      )
-    }
-
-    return `<!DOCTYPE html>\n<html>\n<head>\n  ${baseTag}\n</head>\n<body>\n${htmlContent}\n</body>\n</html>`
   }
 }
