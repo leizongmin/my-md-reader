@@ -27,6 +27,8 @@ Preview: { theme: auto, width: centered }
 - 点击图片预览大图；缩小窗口检查手机宽度下的排版。
 - 在 Chrome 中打印或导出 PDF，检查打印版式。
 
+<!-- omit from toc -->
+
 ## 文内目录
 
 下面由 **TOC** 插件生成，与阅读器侧栏目录可以同时使用。

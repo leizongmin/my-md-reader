@@ -1,0 +1,107 @@
+// 两端共享提示卡片、文内目录和 Mermaid 排版。
+.markdown-alert,
+blockquote:is(.info, .tip, .success, .warning, .danger) {
+  --alert-color: var(--color-primary);
+  --alert-bg: var(--color-primary-alpha-10);
+  border: 1px solid color-mix(in srgb, var(--alert-color) 30%, transparent);
+  border-left: 4px solid var(--alert-color);
+  border-radius: 8px;
+  background: var(--alert-bg);
+  color: var(--color-text-primary);
+  padding: 14px 20px;
+  margin: 20px 0;
+  &.markdown-alert-tip,
+  &.success {
+    --alert-color: var(--color-success);
+    --alert-bg: var(--color-success-alpha-10);
+  }
+  &.markdown-alert-important {
+    --alert-color: var(--color-important);
+    --alert-bg: var(--color-important-alpha-10);
+  }
+  &.markdown-alert-warning,
+  &.warning {
+    --alert-color: var(--color-warning);
+    --alert-bg: var(--color-warning-alpha-10);
+  }
+  &.markdown-alert-caution,
+  &.danger {
+    --alert-color: var(--color-danger);
+    --alert-bg: var(--color-danger-alpha-10);
+  }
+  & > :first-child {
+    margin-top: 0;
+  }
+  & > :last-child {
+    margin-bottom: 0;
+  }
+}
+blockquote:is(.info, .tip, .success, .warning, .danger) {
+  padding-left: 44px;
+}
+.table-of-contents {
+  padding: 16px 0;
+  margin: 24px 0 32px;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.95em;
+  line-height: 1.6;
+  font-family: 'Noto Serif SC', 'Songti SC', SimSun, Georgia, serif;
+  & ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    & li {
+      list-style: none;
+      margin: 0;
+      & a {
+        display: block;
+        padding: 6px 0;
+        color: var(--color-text-secondary);
+        overflow-wrap: anywhere;
+        &:hover {
+          color: var(--color-primary);
+          text-decoration: none;
+        }
+        &:focus-visible {
+          outline: 2px solid var(--color-primary);
+          outline-offset: 3px;
+        }
+      }
+    }
+    & ul {
+      padding-left: 1.5em;
+      margin: 0 0 8px;
+      font-size: 0.94em;
+    }
+  }
+  & > ul > li > a {
+    padding-top: 10px;
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+}
+pre.mermaid {
+  white-space: normal;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  & svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: auto;
+  }
+  & > .md-reader__mermaid-error {
+    color: var(--color-danger);
+    white-space: pre-wrap;
+    font: inherit;
+    max-height: 8em;
+    overflow: auto;
+    margin-bottom: 12px;
+  }
+  &[data-mermaid-status='error'] > code {
+    white-space: pre;
+    max-height: 20em;
+  }
+}

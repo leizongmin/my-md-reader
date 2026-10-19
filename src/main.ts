@@ -504,7 +504,7 @@ function main(data: Data) {
     head: HTMLElement,
   ): HTMLElement[] {
     const content = String(head.textContent).trim()
-    const encodeContent = getDecodeContent(content)
+    const encodeContent = head.id || getDecodeContent(content)
 
     head.setAttribute('id', encodeContent)
 

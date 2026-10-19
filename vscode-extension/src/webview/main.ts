@@ -294,7 +294,7 @@ function renderSide(contentContainer: HTMLElement, sideContainer: HTMLElement) {
 
   headElements.forEach(head => {
     const content = (head.textContent || '').trim()
-    const encodeContent = getDecodeContent(content, idCache)
+    const encodeContent = head.id || getDecodeContent(content, idCache)
 
     head.setAttribute('id', encodeContent)
 

@@ -1,4 +1,6 @@
 @import url('@md-reader/theme');
+@import 'katex-style';
+@import '../../../src/style/theme-aliases.less';
 
 .light() {
   --color-white: #fff;
@@ -110,14 +112,17 @@
 }
 
 :root {
+  .theme-aliases();
   .light();
   @media (prefers-color-scheme: dark) {
     .dark();
   }
   &[data-md-reader-theme='light'] .md-reader {
+    .theme-aliases();
     .light();
   }
   &[data-md-reader-theme='dark'] .md-reader {
+    .theme-aliases();
     .dark();
   }
 }
@@ -269,6 +274,7 @@ body.md-reader {
         .theme();
         @import '../../../src/style/tables.less';
         @import '../../../src/style/graphviz.less';
+        @import '../../../src/style/reading.less';
         font-size: var(--md-reader-font-size, 14px) !important;
 
         h1,

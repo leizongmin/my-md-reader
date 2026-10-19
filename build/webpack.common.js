@@ -16,6 +16,8 @@ module.exports = {
     publicPath: './',
   },
   module: {
+    // 内容脚本在隔离世界执行，不能通过页面 URL 注入 Mermaid 的懒加载脚本。
+    parser: { javascript: { dynamicImportMode: 'eager' } },
     rules: [
       {
         test: /\.m?js$/,
@@ -55,7 +57,7 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.woff2$/,
+        test: /\.(woff2?|ttf)$/,
         type: 'asset/resource',
         generator: {
           outputPath: 'fonts',
@@ -69,6 +71,9 @@ module.exports = {
     extensions: ['.ts', '.js', '.svelte', '.json', '.less'],
     alias: {
       '@': resolve(__dirname, '../src'),
+      'katex-style': require.resolve('katex/dist/katex.min.css', {
+        paths: [require.resolve('@traptitech/markdown-it-katex')],
+      }),
       // SMUI 9 未导出 bare.css，直接定位已安装包的样式文件。
       ...Object.fromEntries(
         ['radio', 'switch', 'button', 'chips', 'select', 'form-field'].map(

@@ -52,6 +52,9 @@ const webviewConfig = {
     extensions: ['.ts', '.js', '.mjs'],
     alias: {
       '@': path.resolve(__dirname, '../src'),
+      'katex-style': require.resolve('katex/dist/katex.min.css', {
+        paths: [require.resolve('@traptitech/markdown-it-katex')],
+      }),
     },
   },
   module: {
@@ -80,6 +83,11 @@ const webviewConfig = {
       {
         test: /\.svg$/,
         type: 'asset/source',
+      },
+      {
+        test: /\.(woff2?|ttf)$/,
+        type: 'asset/resource',
+        generator: { filename: 'fonts/[name][ext]' },
       },
     ],
   },

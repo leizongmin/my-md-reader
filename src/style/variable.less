@@ -1,4 +1,5 @@
 @import url('@md-reader/theme');
+@import './theme-aliases.less';
 
 .light() {
   --color-white: #fff;
@@ -25,8 +26,8 @@
   --color-side: var(--color-text-secondary);
   --color-side-bg: #f3f1ed;
   --color-side-border: #e8e6e2;
-  --color-side-shadow: 0 0 5px rgba(35, 36, 49, 0.02),
-    0 0 20px rgba(35, 36, 49, 0.2);
+  --color-side-shadow:
+    0 0 5px rgba(35, 36, 49, 0.02), 0 0 20px rgba(35, 36, 49, 0.2);
   --color-img-bg: #eae7e2;
   --color-block-bg: var(--hljs-base);
   --color-code-bg: #efecea;
@@ -110,14 +111,17 @@
 }
 
 :root {
+  .theme-aliases();
   .light();
   @media (prefers-color-scheme: dark) {
     .dark();
   }
   &[data-md-reader-theme='light'] .md-reader {
+    .theme-aliases();
     .light();
   }
   &[data-md-reader-theme='dark'] .md-reader {
+    .theme-aliases();
     .dark();
   }
   &:not([data-md-reader-theme-scheme-disabled]) {

@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.3.1] - 2026-10-19
+
+### Added
+
+- Graphviz / DOT diagrams in Chrome and VS Code, sharing the Mermaid plugin toggle
+- A complete Markdown feature showcase with diagrams, extended tables and alerts
+- Chrome tab titles derived from the first Markdown heading
+
+### Changed
+
+- Book-inspired in-document contents with serif typography and hierarchical indentation
+- Wide tables expand into available page margins, with merged-cell-aware column fitting
+- Colored alert cards with borders in light and dark themes
+
+### Fixed
+
+- Bundle Chrome Mermaid diagrams without page-relative lazy script loading
+- Preserve Mermaid source and show a compact error when a diagram cannot render
+- Restore Markdown theme colors, table borders and header backgrounds
+- Include KaTeX styles and fonts to prevent duplicate formula rendering
+- Keep contents links aligned with unique IDs for formatted and duplicate headings
+
 ## [1.3.0] - 2026-10-19
 
 ### Changed

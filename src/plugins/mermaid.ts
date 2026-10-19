@@ -13,6 +13,7 @@ export default function MermaidPlugin(
     ...options,
     startOnLoad: false,
     securityLevel: 'strict',
+    suppressErrorRendering: true,
   })
   const fence = md.renderer.rules.fence!
   md.renderer.rules.fence = (tokens, idx, config, env, self) => {
@@ -22,6 +23,8 @@ export default function MermaidPlugin(
     return `<pre class="mermaid">${md.utils.escapeHtml(tokens[idx].content.trim())}</pre>`
   }
 }
+
+let diagramId = 0
 
 /**
  * 渲染指定容器中的图表；解析失败时保留原始文本供用户查看。
@@ -33,9 +36,31 @@ export async function renderMermaid(container: HTMLElement) {
     container.querySelectorAll<HTMLElement>('pre.mermaid'),
   )
   if (!nodes.length) return
-  try {
-    await mermaid.run({ nodes, suppressErrors: true })
-  } catch (error) {
-    console.error('Failed to render Mermaid diagrams', error)
+  for (const node of nodes) {
+    if (
+      ['rendering', 'ready', 'error'].includes(node.dataset.mermaidStatus ?? '')
+    )
+      continue
+    const source = node.textContent ?? ''
+    node.dataset.mermaidStatus = 'rendering'
+    try {
+      // 使用专用测量容器，不让 Mermaid 在失败时覆盖用户源码。
+      const { svg, bindFunctions } = await mermaid.render(
+        `md-reader-mermaid-${++diagramId}`,
+        source,
+      )
+      node.innerHTML = svg
+      node.dataset.processed = 'true'
+      node.dataset.mermaidStatus = 'ready'
+      bindFunctions?.(node)
+    } catch (error) {
+      const message = document.createElement('div')
+      message.className = 'md-reader__mermaid-error'
+      message.textContent = `Failed to render Mermaid diagram: ${error instanceof Error ? error.message : String(error)}`
+      const code = document.createElement('code')
+      code.textContent = source
+      node.replaceChildren(message, code)
+      node.dataset.mermaidStatus = 'error'
+    }
   }
 }
