@@ -258,10 +258,11 @@ function main(data: Data) {
         showLineNumbers: configData.showLineNumbers,
         ...options,
       })
+      const ele = target instanceof Ele ? (target.ele as HTMLElement) : target
+      document.title = ele.querySelector('h1')?.textContent.trim() ?? ''
+      globalEvent.emit('contentRendered', ele)
       // Mermaid 12 的异步渲染需要图表节点先存在于页面中。
-      void renderMermaid(
-        target instanceof Ele ? (target.ele as HTMLElement) : target,
-      )
+      void renderMermaid(ele)
     }
 
   const contentRender = (code: string) => {
