@@ -19,6 +19,9 @@ importers:
       '@traptitech/markdown-it-katex':
         specifier: ^3.6.0
         version: 3.6.0
+      '@viz-js/viz':
+        specifier: ^3.31.0
+        version: 3.31.0
       highlight.js:
         specifier: ^11.12.0
         version: 11.12.0
@@ -1171,6 +1174,12 @@ packages:
     resolution:
       {
         integrity: sha512-WbBhLrooyePuQ1VZxrJjtLvTc4NVfpOyKx0sKqioq9bX1C1m7Jgykkn8gLrtwumBioXIqam8DLxp88Adbue6Hw==,
+      }
+
+  '@viz-js/viz@3.31.0':
+    resolution:
+      {
+        integrity: sha512-r7zlQdRvcwvIpjHGgs+KNWHeE/P5/Dq7k8ZAKaMCbZqomxCBJV78gVuQYaHzFVca+kB0mX0fMW9UFevCOBG50A==,
       }
 
   '@vscode/vsce-sign-alpine-arm64@2.0.6':
@@ -4084,6 +4093,8 @@ snapshots:
     optionalDependencies:
       d3-selection: 3.0.0
       d3-transition: 3.0.1(d3-selection@3.0.0)
+
+  '@viz-js/viz@3.31.0': {}
 
   '@vscode/vsce-sign-alpine-arm64@2.0.6':
     optional: true

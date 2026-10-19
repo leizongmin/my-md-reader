@@ -25,8 +25,8 @@
   --color-side: var(--color-text-secondary);
   --color-side-bg: #f3f1ed;
   --color-side-border: #e8e6e2;
-  --color-side-shadow: 0 0 5px rgba(35, 36, 49, 0.02),
-    0 0 20px rgba(35, 36, 49, 0.2);
+  --color-side-shadow:
+    0 0 5px rgba(35, 36, 49, 0.02), 0 0 20px rgba(35, 36, 49, 0.2);
   --color-img-bg: #eae7e2;
   --color-block-bg: var(--hljs-base);
   --color-code-bg: #efecea;
@@ -152,9 +152,10 @@ body.md-reader {
   padding: 0;
   background: var(--color-bg);
   scroll-behavior: smooth;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'PingFang SC', 'Hiragino Sans GB', 'Noto Sans SC', 'Microsoft YaHei',
-    'Source Han Sans SC', 'WenQuanYi Micro Hei', sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC',
+    'Hiragino Sans GB', 'Noto Sans SC', 'Microsoft YaHei', 'Source Han Sans SC',
+    'WenQuanYi Micro Hei', sans-serif;
   -webkit-font-smoothing: subpixel-antialiased;
   -moz-osx-font-smoothing: grayscale;
   counter-reset: katexEqnNo mmlEqnNo;
@@ -180,7 +181,9 @@ body.md-reader {
       list-style: none;
       color: var(--color-side);
       background: var(--color-side-bg);
-      transition: transform 0.3s, box-shadow 0.5s;
+      transition:
+        transform 0.3s,
+        box-shadow 0.5s;
       will-change: transform, box-shadow;
       z-index: 1;
 
@@ -200,7 +203,10 @@ body.md-reader {
           word-break: break-all;
           text-overflow: ellipsis;
           text-decoration: none;
-          transition: color 0.2s, background 0.2s, border-color 0.2s;
+          transition:
+            color 0.2s,
+            background 0.2s,
+            border-color 0.2s;
           color: inherit;
           -webkit-box-orient: vertical;
           -webkit-line-clamp: 2;
@@ -259,6 +265,7 @@ body.md-reader {
         }
 
         .theme();
+        @import '../../../src/style/graphviz.less';
         font-size: var(--md-reader-font-size, 14px) !important;
 
         h1,
@@ -394,8 +401,8 @@ body.md-reader {
           min-width: 2.5em;
           font-size: 1em;
           line-height: 1.6;
-          font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo,
-            monospace;
+          font-family:
+            'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
           box-sizing: border-box;
         }
 
@@ -418,8 +425,8 @@ body.md-reader {
           padding: 0;
           font-size: 1em;
           line-height: 1.6;
-          font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo,
-            monospace;
+          font-family:
+            'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
         }
 
         .hljs-line-numbers + code * {
@@ -491,7 +498,9 @@ body.md-reader {
           border-radius: 6px;
           max-width: 100%;
           cursor: zoom-in;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
           &:hover {
             transform: scale(1.01);
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
@@ -676,7 +685,9 @@ body.md-reader {
     border: none;
     outline: none;
     cursor: pointer;
-    transition: background 0.1s, color 0.1s;
+    transition:
+      background 0.1s,
+      color 0.1s;
     backdrop-filter: blur(3px);
     background: var(--color-button-bg);
     color: var(--color-button);
@@ -708,7 +719,10 @@ body.md-reader {
       display: none;
       position: absolute;
       left: 16px;
-      transition: background 0.1s, color 0.1s, transform 0.3s;
+      transition:
+        background 0.1s,
+        color 0.1s,
+        transform 0.3s;
       transform: translateX(@side-width);
     }
     &--go-top {
@@ -723,7 +737,11 @@ body.md-reader {
       right: 10px;
       width: 30px;
       height: 30px;
-      transition: opacity 0.2s, background 0.15s, color 0.15s, transform 0.2s;
+      transition:
+        opacity 0.2s,
+        background 0.15s,
+        color 0.15s,
+        transform 0.2s;
       z-index: 1;
       background: var(--color-button_copy-bg);
       color: var(--color-button_copy);

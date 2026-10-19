@@ -9,6 +9,7 @@ import type { Theme } from '@/config/page-themes'
 import { getDefaultData, type Data } from '@/core/data'
 import { mdRender, type MdOptions } from '@/core/markdown'
 import { renderMermaid } from '@/plugins/mermaid'
+import { renderGraphviz } from '@/plugins/graphviz-renderer'
 import {
   getHeads,
   getRawContainer,
@@ -263,6 +264,7 @@ function main(data: Data) {
       globalEvent.emit('contentRendered', ele)
       // Mermaid 12 的异步渲染需要图表节点先存在于页面中。
       void renderMermaid(ele)
+      void renderGraphviz(ele)
     }
 
   const contentRender = (code: string) => {

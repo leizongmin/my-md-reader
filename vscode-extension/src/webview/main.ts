@@ -1,7 +1,12 @@
 import throttle from 'lodash.throttle'
 import { initMarkdownRenderer, mdRender } from './markdown'
 import { renderMermaid } from '../../../src/plugins/mermaid'
+import { renderGraphviz } from '../../../src/plugins/graphviz-renderer'
 import './style.less'
+
+declare let __webpack_nonce__: string
+// 将入口脚本的 nonce 传给异步图表资源，保持 Webview 的脚本限制。
+__webpack_nonce__ = document.currentScript?.getAttribute('nonce') ?? ''
 
 declare global {
   interface Window {
@@ -206,6 +211,7 @@ function renderContent(container: HTMLElement, content: string) {
   const html = mdRender(content)
   container.innerHTML = html
   void renderMermaid(container)
+  void renderGraphviz(container)
 
   container.querySelectorAll('pre.hljs-pre').forEach(pre => {
     addCopyButton(pre as HTMLElement)

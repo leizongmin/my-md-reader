@@ -16,6 +16,7 @@ import mTaskLists from 'markdown-it-task-lists'
 import mToc from 'markdown-it-table-of-contents'
 import mKatex from '@traptitech/markdown-it-katex'
 import mMermaid from '@/plugins/mermaid'
+import mGraphvizBlock from '@/plugins/graphviz-block'
 import mAlert from '@/plugins/alert'
 import mMultimdTable from '@/plugins/multimd-table'
 import MD_PLUGINS from '@/config/md-plugins'
@@ -145,6 +146,8 @@ function initRender({
     plugin && md.use(plugin[0], ...plugin.slice(1))
   })
 
+  // 后安装以接管使用 Mermaid 围栏书写的 DOT 图表。
+  if (plugins.includes('Mermaid')) md.use(mGraphvizBlock)
   return md
 }
 

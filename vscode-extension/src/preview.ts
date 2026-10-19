@@ -284,7 +284,7 @@ export class MarkdownPreviewPanel {
     const csp = [
       `default-src 'none'`,
       `style-src ${webview.cspSource} 'unsafe-inline'`,
-      `script-src 'nonce-${nonce}'`,
+      `script-src 'nonce-${nonce}' 'wasm-unsafe-eval'`,
       `img-src ${webview.cspSource} https: data:`,
       `font-src ${webview.cspSource} https: data:`,
     ].join('; ')

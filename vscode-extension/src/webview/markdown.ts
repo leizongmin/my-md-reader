@@ -13,6 +13,7 @@ import mTaskLists from 'markdown-it-task-lists'
 import mToc from 'markdown-it-table-of-contents'
 import mKatex from '@traptitech/markdown-it-katex'
 import mMermaid from '../../../src/plugins/mermaid'
+import mGraphvizBlock from '../../../src/plugins/graphviz-block'
 import mMultimdTable from '../../../src/plugins/multimd-table'
 import mAlert from './alert'
 
@@ -142,6 +143,8 @@ export function initMarkdownRenderer(options: MdOptions = {}): MarkdownParser {
     }
   })
 
+  // 与 Chrome 一致，在 Mermaid 启用时支持 DOT 图表。
+  if (plugins.includes('Mermaid')) md.use(mGraphvizBlock)
   return md
 }
 
