@@ -250,10 +250,12 @@ body.md-reader {
 
     &__body {
       min-height: 100vh;
-      padding-left: @side-width;
+      --side-width: @side-width;
+      padding-left: var(--side-width);
       transition: padding 0.3s;
 
       .md-reader__markdown-content {
+        --content-padding: 30px;
         padding: 20px 30px 40px;
         color: var(--color-text-primary);
         line-height: 1.75;
@@ -265,6 +267,7 @@ body.md-reader {
         }
 
         .theme();
+        @import '../../../src/style/tables.less';
         @import '../../../src/style/graphviz.less';
         font-size: var(--md-reader-font-size, 14px) !important;
 
@@ -603,9 +606,10 @@ body.md-reader {
         border-color: transparent;
       }
       &__body {
-        padding-left: 0px;
+        --side-width: 0px;
         .md-reader__markdown-content {
           padding: 24px 32px 36px;
+          --content-padding: 32px;
         }
       }
       &__btn--side-expand {
@@ -617,6 +621,7 @@ body.md-reader {
       &__body {
         .md-reader__markdown-content {
           padding: 20px 20px 30px;
+          --content-padding: 20px;
           font-size: 12px;
         }
       }
@@ -646,7 +651,7 @@ body.md-reader {
         border-color: transparent;
       }
       &__body {
-        padding-left: 0px;
+        --side-width: 0px;
       }
       &__btn--side-expand {
         transform: translateX(0);

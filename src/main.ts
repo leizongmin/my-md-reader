@@ -10,6 +10,7 @@ import { getDefaultData, type Data } from '@/core/data'
 import { mdRender, type MdOptions } from '@/core/markdown'
 import { renderMermaid } from '@/plugins/mermaid'
 import { renderGraphviz } from '@/plugins/graphviz-renderer'
+import { observeTableColumns } from '@/plugins/table-columns'
 import {
   getHeads,
   getRawContainer,
@@ -249,6 +250,8 @@ function main(data: Data) {
           : ''
     }`,
   })
+
+  observeTableColumns(mdContent.ele as HTMLElement)
 
   const mdRenderer =
     (target: HTMLElement | Ele) =>

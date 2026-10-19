@@ -1,0 +1,25 @@
+// 宽表格居中扩展到页面留白边界，窄屏仍在表格内部横向滚动。
+&.centered {
+  overflow-x: visible;
+  > table {
+    width: max-content;
+    min-width: 100%;
+    max-width: calc(100vw - var(--side-width) - 2 * var(--content-padding));
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+td,
+th {
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+@media print {
+  &.centered > table {
+    max-width: 100%;
+    min-width: 0;
+    left: auto;
+    transform: none;
+  }
+}

@@ -2,6 +2,7 @@ import throttle from 'lodash.throttle'
 import { initMarkdownRenderer, mdRender } from './markdown'
 import { renderMermaid } from '../../../src/plugins/mermaid'
 import { renderGraphviz } from '../../../src/plugins/graphviz-renderer'
+import { observeTableColumns } from '../../../src/plugins/table-columns'
 import './style.less'
 
 declare let __webpack_nonce__: string
@@ -88,6 +89,7 @@ function init() {
   mdBody.appendChild(mdContent)
 
   const mdSide = document.createElement('ul')
+  observeTableColumns(mdContent)
   mdSide.className = className.MD_SIDE
   mdSide.addEventListener('mouseenter', () => {
     isSideHover = true
