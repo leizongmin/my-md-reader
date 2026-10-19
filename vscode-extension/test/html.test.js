@@ -1,26 +1,10 @@
 const assert = require('node:assert/strict')
-const fs = require('node:fs')
 const path = require('node:path')
 const test = require('node:test')
-const ts = require('typescript')
-
-function loadHtmlUtils() {
-  const fileName = path.resolve(__dirname, '../src/utils/html.ts')
-  const source = fs.readFileSync(fileName, 'utf8')
-  const output = ts.transpileModule(source, {
-    compilerOptions: {
-      module: ts.ModuleKind.CommonJS,
-      target: ts.ScriptTarget.ES2020,
-    },
-    fileName,
-  }).outputText
-  const module = { exports: {} }
-  const execute = new Function('module', 'exports', output)
-  execute(module, module.exports)
-  return module.exports
-}
-
-const { escapeHtml, serializeForScript, wrapHtmlContent } = loadHtmlUtils()
+// 使用 Node 原生 TypeScript 加载，避免依赖 TypeScript 7 已移除的编译 API。
+const { escapeHtml, serializeForScript, wrapHtmlContent } = require(
+  path.resolve(__dirname, '../src/utils/html.ts'),
+)
 const baseUri = 'https://example.test/docs'
 const baseTag = `<base href="${baseUri}/">`
 

@@ -55,6 +55,8 @@ Open VS Code Settings and search for "Markdown Reader" to configure:
 
 ## Development
 
+Requires Node.js 22.22.1 or later and pnpm 10. The extension continues to support VS Code 1.74 or later.
+
 ```bash
 # Install dependencies
 pnpm install

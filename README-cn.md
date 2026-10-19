@@ -25,6 +25,8 @@ Markdown Reader 是一款强大的浏览器扩展程序，能让你在浏览器�
 
 以 Chrome 为例：
 
+构建需要 Node.js 22.22.1 或更新版本，以及 pnpm 10。
+
 1. 克隆 `md-reader` 仓库到本地并编译:
 
    ```bash

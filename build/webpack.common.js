@@ -3,7 +3,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const FriendlyErrors = require('@nuxt/friendly-errors-webpack-plugin')
-const SveltePreprocess = require('svelte-preprocess')
 
 module.exports = {
   entry: {
@@ -19,6 +18,11 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.m?js$/,
+        include: /node_modules\/.*@smui/,
+        resolve: { fullySpecified: false },
+      },
+      {
         test: /\.(js|ts)$/,
         use: {
           loader: 'esbuild-loader',
@@ -30,9 +34,6 @@ module.exports = {
         test: /\.svelte$/,
         use: {
           loader: 'svelte-loader',
-          options: {
-            preprocess: SveltePreprocess.typescript(),
-          },
         },
       },
       {
@@ -64,15 +65,18 @@ module.exports = {
     ],
   },
   resolve: {
+    conditionNames: ['svelte', '...'],
     extensions: ['.ts', '.js', '.svelte', '.json', '.less'],
     alias: {
       '@': resolve(__dirname, '../src'),
-      // 修复 mermaid 依赖的 cytoscape 包 exports 字段配置缺陷
-      // cytoscape 的 exports 中 ./dist/cytoscape.umd.js 只有 require 条件，缺少 import 条件
-      // webpack 5 生产模式优先使用 import 条件解析，导致模块解析失败
-      // 通过 alias 直接指向文件路径绕过 exports 限制
-      'cytoscape/dist/cytoscape.umd.js': require.resolve(
-        'cytoscape/dist/cytoscape.umd.js',
+      // SMUI 9 未导出 bare.css，直接定位已安装包的样式文件。
+      ...Object.fromEntries(
+        ['radio', 'switch', 'button', 'chips', 'select', 'form-field'].map(
+          name => [
+            `@smui/${name}/bare.css`,
+            resolve(__dirname, `../node_modules/@smui/${name}/bare.css`),
+          ],
+        ),
       ),
     },
   },

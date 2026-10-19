@@ -26,6 +26,8 @@ Markdown Reader is a powerful browser extension that enables you to conveniently
 
 Example of Chrome:
 
+Requires Node.js 22.22.1 or later and pnpm 10.
+
 1. Clone the `md-reader` repository and build it:
 
    ```bash

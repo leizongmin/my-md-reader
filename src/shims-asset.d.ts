@@ -5,3 +5,6 @@ declare module '*.svg' {
   }
   export default content
 }
+
+declare module '*.css' {}
+declare module '*.less' {}

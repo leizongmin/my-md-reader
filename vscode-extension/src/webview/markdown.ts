@@ -1,19 +1,19 @@
 import hljs from 'highlight.js'
-import MarkdownIt from 'markdown-it'
+import MarkdownIt, { type MarkdownIt as MarkdownParser } from 'markdown-it'
 import { parse as parseYaml } from 'yaml'
 import mSub from 'markdown-it-sub'
 import mSup from 'markdown-it-sup'
 import mIns from 'markdown-it-ins'
 import mAbbr from 'markdown-it-abbr'
 import mMark from 'markdown-it-mark'
-import mEmoji from 'markdown-it-emoji'
+import { full as mEmoji } from 'markdown-it-emoji'
 import mDeflist from 'markdown-it-deflist'
 import mFootnote from 'markdown-it-footnote'
 import mTaskLists from 'markdown-it-task-lists'
 import mToc from 'markdown-it-table-of-contents'
 import mKatex from '@traptitech/markdown-it-katex'
-import mMermaid from '@md-reader/markdown-it-mermaid'
-import mMultimdTable from 'markdown-it-multimd-table'
+import mMermaid from '../../../src/plugins/mermaid'
+import mMultimdTable from '../../../src/plugins/multimd-table'
 import mAlert from './alert'
 
 export interface MdOptions {
@@ -59,12 +59,12 @@ const DEFAULT_PLUGINS = [
   'Alert',
 ]
 
-let md: MarkdownIt | null = null
+let md: MarkdownParser | null = null
 
 /**
  * 初始化 Markdown 渲染器
  */
-export function initMarkdownRenderer(options: MdOptions = {}): MarkdownIt {
+export function initMarkdownRenderer(options: MdOptions = {}): MarkdownParser {
   const {
     theme = 'light',
     plugins = DEFAULT_PLUGINS,
@@ -136,7 +136,7 @@ export function initMarkdownRenderer(options: MdOptions = {}): MarkdownIt {
     }
     if (plugin) {
       md!.use(
-        plugin[0] as MarkdownIt.PluginSimple,
+        plugin[0] as Parameters<MarkdownParser['use']>[0],
         ...(plugin.slice(1) as unknown[]),
       )
     }

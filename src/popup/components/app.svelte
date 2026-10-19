@@ -42,6 +42,16 @@
   function changeLocale(language) {
     localize = i18n(language)
   }
+
+  /** 保存 SMUI 原生开关事件携带的最新状态。 */
+  function saveSwitch(node: HTMLElement, key: keyof Data) {
+    const handler = (event: CustomEvent<{ selected: boolean }>) =>
+      updateConfig(key, event.detail.selected)
+    node.addEventListener('SMUISwitchChange', handler)
+    return {
+      destroy: () => node.removeEventListener('SMUISwitchChange', handler),
+    }
+  }
 </script>
 
 <main>
@@ -58,7 +68,7 @@
         <Switch
           bind:checked={data.enable}
           color="primary"
-          on:change={() => updateConfig('enable', data.enable)}
+          use={[[saveSwitch, 'enable']]}
         />
       </FormField>
     </div>
@@ -70,7 +80,7 @@
           disabled={!data.enable}
           bind:checked={data.centered}
           color="primary"
-          on:change={() => updateConfig('centered', data.centered)}
+          use={[[saveSwitch, 'centered']]}
         />
       </FormField>
     </div>
@@ -82,7 +92,7 @@
           disabled={!data.enable}
           bind:checked={data.refresh}
           color="primary"
-          on:change={() => updateConfig('refresh', data.refresh)}
+          use={[[saveSwitch, 'refresh']]}
         />
       </FormField>
     </div>
@@ -94,7 +104,7 @@
           disabled={!data.enable}
           bind:checked={data.showLineNumbers}
           color="primary"
-          on:change={() => updateConfig('showLineNumbers', data.showLineNumbers)}
+          use={[[saveSwitch, 'showLineNumbers']]}
         />
       </FormField>
     </div>
@@ -102,21 +112,21 @@
     <div class="form-item">
       <div class="label-item">{localize('label_page-width')}:</div>
       <FormField>
-        <span slot="label">{localize('default')}</span>
+        {#snippet label()}<span>{localize('default')}</span>{/snippet}
         <Radio
           disabled={!data.enable}
           bind:group={data.pageWidth}
           value={'default'}
-          on:change={() => updateConfig('pageWidth', 'default')}
+          onchange={() => updateConfig('pageWidth', 'default')}
         />
       </FormField>
       <FormField>
-        <span slot="label">{localize('full')}</span>
+        {#snippet label()}<span>{localize('full')}</span>{/snippet}
         <Radio
           disabled={!data.enable}
           bind:group={data.pageWidth}
           value={'full'}
-          on:change={() => updateConfig('pageWidth', 'full')}
+          onchange={() => updateConfig('pageWidth', 'full')}
         />
       </FormField>
     </div>
@@ -124,19 +134,20 @@
     <div class="form-item">
       <div class="label-item">{localize('label_md-plugins')}:</div>
       <Set
-        let:chip
         bind:selected={data.mdPlugins}
         chips={MD_PLUGINS}
         nonInteractive={!data.enable}
         filter={data.enable}
       >
+        {#snippet chip(name)}
         <Chip
-          {chip}
-          title={chip}
-          on:click={() =>
+          chip={name}
+          title={name}
+          onclick={() =>
             data.enable && updateConfig('mdPlugins', data.mdPlugins)}
-          ><Text>{localize(chip)}</Text></Chip
+          ><Text>{localize(name)}</Text></Chip
         >
+        {/snippet}
       </Set>
     </div>
 
@@ -144,12 +155,12 @@
       <div class="label-item">{localize('label_theme')}:</div>
       {#each PAGE_THEMES as mode}
         <FormField>
-          <span slot="label"> {localize(mode)} </span>
+          {#snippet label()}<span>{localize(mode)}</span>{/snippet}
           <Radio
             disabled={!data.enable}
             bind:group={data.pageTheme}
             bind:value={mode}
-            on:change={() => updateConfig('pageTheme', mode)}
+            onchange={() => updateConfig('pageTheme', mode)}
           />
         </FormField>
       {/each}

@@ -1,5 +1,4 @@
-import type MarkdownIt from 'markdown-it'
-import type Token from 'markdown-it/lib/token'
+import type { MarkdownIt, Token } from 'markdown-it'
 import { alert } from '@mdit/plugin-alert'
 import mContainer from 'markdown-it-container'
 
@@ -88,6 +87,9 @@ export default function AlertPlugin(md: MarkdownIt) {
     ],
   ]
   customContainers.forEach(p => {
-    md.use(p[0] as MarkdownIt.PluginSimple, ...(p.slice(1) as unknown[]))
+    md.use(
+      p[0] as Parameters<MarkdownIt['use']>[0],
+      ...(p.slice(1) as unknown[]),
+    )
   })
 }

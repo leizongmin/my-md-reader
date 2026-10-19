@@ -12,7 +12,9 @@ try {
   )
   await fs.writeFile(
     manifestPath,
-    prettier.format(JSON.stringify(manifest, null, 2), { parser: 'json' }),
+    await prettier.format(JSON.stringify(manifest, null, 2), {
+      parser: 'json',
+    }),
     'utf-8',
   )
 } catch (err) {

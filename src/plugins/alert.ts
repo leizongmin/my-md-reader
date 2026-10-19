@@ -1,5 +1,4 @@
-import type MarkdownIt from 'markdown-it'
-import type Token from 'markdown-it/lib/token'
+import type { MarkdownIt, Token } from 'markdown-it'
 import { alert } from '@mdit/plugin-alert'
 import mContainer from 'markdown-it-container'
 

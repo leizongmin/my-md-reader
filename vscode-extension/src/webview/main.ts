@@ -1,5 +1,6 @@
 import throttle from 'lodash.throttle'
 import { initMarkdownRenderer, mdRender } from './markdown'
+import { renderMermaid } from '../../../src/plugins/mermaid'
 import './style.less'
 
 declare global {
@@ -204,6 +205,7 @@ function renderContent(container: HTMLElement, content: string) {
 
   const html = mdRender(content)
   container.innerHTML = html
+  void renderMermaid(container)
 
   container.querySelectorAll('pre.hljs-pre').forEach(pre => {
     addCopyButton(pre as HTMLElement)

@@ -52,10 +52,6 @@ const webviewConfig = {
     extensions: ['.ts', '.js', '.mjs'],
     alias: {
       '@': path.resolve(__dirname, '../src'),
-      'cytoscape/dist/cytoscape.umd.js': path.resolve(
-        __dirname,
-        'node_modules/.pnpm/cytoscape@3.33.1/node_modules/cytoscape/dist/cytoscape.esm.mjs',
-      ),
     },
   },
   module: {

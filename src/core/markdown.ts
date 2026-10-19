@@ -1,20 +1,23 @@
 import hljs from 'highlight.js'
-import MarkdownIt from 'markdown-it'
+import MarkdownIt, {
+  type MarkdownIt as MarkdownParser,
+  type MarkdownItOptions,
+} from 'markdown-it'
 import { parse as parseYaml } from 'yaml'
 import mSub from 'markdown-it-sub'
 import mSup from 'markdown-it-sup'
 import mIns from 'markdown-it-ins'
 import mAbbr from 'markdown-it-abbr'
 import mMark from 'markdown-it-mark'
-import mEmoji from 'markdown-it-emoji'
+import { full as mEmoji } from 'markdown-it-emoji'
 import mDeflist from 'markdown-it-deflist'
 import mFootnote from 'markdown-it-footnote'
 import mTaskLists from 'markdown-it-task-lists'
 import mToc from 'markdown-it-table-of-contents'
 import mKatex from '@traptitech/markdown-it-katex'
-import mMermaid from '@md-reader/markdown-it-mermaid'
+import mMermaid from '@/plugins/mermaid'
 import mAlert from '@/plugins/alert'
-import mMultimdTable from 'markdown-it-multimd-table'
+import mMultimdTable from '@/plugins/multimd-table'
 import MD_PLUGINS from '@/config/md-plugins'
 import successIcon from '@/images/icon_success.svg'
 import copyIcon from '@/images/icon_copy.svg'
@@ -43,7 +46,7 @@ const PLUGINS: Plugins = {
 
 export interface MdOptions {
   [key: string]: any
-  config?: MarkdownIt.Options
+  config?: MarkdownItOptions
   plugins?: Array<string>
   showLineNumbers?: boolean
 }
@@ -198,7 +201,7 @@ function stripFrontmatter(content: string): string {
 
 interface MdRender {
   (code: string, options: MdOptions): string
-  md?: MarkdownIt
+  md?: MarkdownParser
 }
 export const mdRender: MdRender = (code, options): string => {
   if (!mdRender.md || options) {

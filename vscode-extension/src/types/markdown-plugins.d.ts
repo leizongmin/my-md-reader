@@ -1,84 +1,77 @@
 declare module 'markdown-it-sub' {
-  import type MarkdownIt from 'markdown-it'
-  const plugin: MarkdownIt.PluginSimple
+  import type { MarkdownIt } from 'markdown-it'
+  const plugin: Parameters<MarkdownIt['use']>[0]
   export default plugin
 }
 
 declare module 'markdown-it-sup' {
-  import type MarkdownIt from 'markdown-it'
-  const plugin: MarkdownIt.PluginSimple
+  import type { MarkdownIt } from 'markdown-it'
+  const plugin: Parameters<MarkdownIt['use']>[0]
   export default plugin
 }
 
 declare module 'markdown-it-ins' {
-  import type MarkdownIt from 'markdown-it'
-  const plugin: MarkdownIt.PluginSimple
+  import type { MarkdownIt } from 'markdown-it'
+  const plugin: Parameters<MarkdownIt['use']>[0]
   export default plugin
 }
 
 declare module 'markdown-it-abbr' {
-  import type MarkdownIt from 'markdown-it'
-  const plugin: MarkdownIt.PluginSimple
+  import type { MarkdownIt } from 'markdown-it'
+  const plugin: Parameters<MarkdownIt['use']>[0]
   export default plugin
 }
 
 declare module 'markdown-it-mark' {
-  import type MarkdownIt from 'markdown-it'
-  const plugin: MarkdownIt.PluginSimple
+  import type { MarkdownIt } from 'markdown-it'
+  const plugin: Parameters<MarkdownIt['use']>[0]
   export default plugin
 }
 
 declare module 'markdown-it-emoji' {
-  import type MarkdownIt from 'markdown-it'
-  const plugin: MarkdownIt.PluginSimple
-  export default plugin
+  import type { MarkdownIt } from 'markdown-it'
+  export const full: Parameters<MarkdownIt['use']>[0]
 }
 
 declare module 'markdown-it-deflist' {
-  import type MarkdownIt from 'markdown-it'
-  const plugin: MarkdownIt.PluginSimple
+  import type { MarkdownIt } from 'markdown-it'
+  const plugin: Parameters<MarkdownIt['use']>[0]
   export default plugin
 }
 
 declare module 'markdown-it-footnote' {
-  import type MarkdownIt from 'markdown-it'
-  const plugin: MarkdownIt.PluginSimple
+  import type { MarkdownIt } from 'markdown-it'
+  const plugin: Parameters<MarkdownIt['use']>[0]
   export default plugin
 }
 
 declare module 'markdown-it-task-lists' {
-  import type MarkdownIt from 'markdown-it'
-  const plugin: MarkdownIt.PluginSimple
+  import type { MarkdownIt } from 'markdown-it'
+  const plugin: Parameters<MarkdownIt['use']>[0]
   export default plugin
 }
 
 declare module 'markdown-it-table-of-contents' {
-  import type MarkdownIt from 'markdown-it'
-  const plugin: MarkdownIt.PluginSimple
+  import type { MarkdownIt } from 'markdown-it'
+  const plugin: Parameters<MarkdownIt['use']>[0]
   export default plugin
 }
 
 declare module '@traptitech/markdown-it-katex' {
-  import type MarkdownIt from 'markdown-it'
-  const plugin: MarkdownIt.PluginSimple
-  export default plugin
-}
-
-declare module '@md-reader/markdown-it-mermaid' {
-  import type MarkdownIt from 'markdown-it'
-  const plugin: MarkdownIt.PluginWithOptions
+  import type { MarkdownIt } from 'markdown-it'
+  const plugin: Parameters<MarkdownIt['use']>[0]
   export default plugin
 }
 
 declare module 'markdown-it-multimd-table' {
-  import type MarkdownIt from 'markdown-it'
-  const plugin: MarkdownIt.PluginSimple
+  import type { MarkdownIt } from 'markdown-it'
+  const plugin: Parameters<MarkdownIt['use']>[0]
   export default plugin
 }
 
 declare module 'markdown-it-container' {
-  import type MarkdownIt from 'markdown-it'
-  const plugin: MarkdownIt.PluginWithOptions
+  import type { MarkdownIt } from 'markdown-it'
+  const plugin: Parameters<MarkdownIt['use']>[0]
   export default plugin
 }
 
@@ -108,3 +101,4 @@ declare module 'lodash.debounce' {
 }
 
 declare module '@md-reader/theme' {}
+declare module '*.less' {}

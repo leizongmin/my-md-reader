@@ -1,5 +1,5 @@
 import fs from 'fs/promises'
-import archiver from 'archiver'
+import { ZipArchive } from 'archiver'
 import { url, log, newVersion } from './utils.mjs'
 
 const entryDir = url('../extension/')
@@ -13,7 +13,7 @@ try {
   const fh = await fs.open(url(extName, outputDir), 'w+')
   const output = fh.createWriteStream()
 
-  const archive = archiver('zip', {
+  const archive = new ZipArchive({
     zlib: { level: 9 },
   })
 
