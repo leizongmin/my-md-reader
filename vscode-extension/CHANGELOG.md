@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.3.0] - 2026-10-19
+
+### Changed
+
+- Upgrade Markdown-it to 15, Mermaid to 12, KaTeX to 0.19, and the Markdown theme to 2
+- Render Mermaid diagrams with the asynchronous API in light and dark themes
+- Update Chrome popup components to Svelte 5 and SMUI 9
+- Upgrade build tools to TypeScript 7 and current webpack tooling
+- Source builds require Node.js 22.22.1 or later and pnpm 10; VS Code 1.74 remains supported
+
+### Fixed
+
+- Preserve extended table rendering with Markdown-it 15
+- Preserve Chrome popup setting persistence with the updated UI components
+- Replace vulnerable transitive dependencies; npm audit reported no known vulnerabilities in either extension at release preparation
+
 ## [1.2.0] - 2026-10-10
 
 ### Added
